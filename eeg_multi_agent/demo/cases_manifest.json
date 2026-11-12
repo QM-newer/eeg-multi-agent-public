@@ -1,7 +1,7 @@
 {
   "purpose": "汇报演示病例清单（demo/prepare_demo.py 自动生成）",
   "generated_at": "2026-10-07 15:44:21",
-  "protocol": "test 集，@20 epochs/记录，与批量评估同口径",
+  "protocol": "演示用例（单记录示例）；论文批量评估口径为 @10，见 README",
   "disagreement_thresholds": {
     "prob_diff": 0.3,
     "majority": 0.6,

@@ -7,16 +7,16 @@
     "event": 82
   },
   "with_event": {
-    "acc": 0.6033,
-    "auc": 0.6352
+    "acc": 0.5925,
+    "auc": 0.6118
   },
   "without_event": {
-    "acc": 0.625,
-    "auc": 0.6555
+    "acc": 0.5983,
+    "auc": 0.6347
   },
   "delta": {
-    "acc": -0.0217,
-    "auc": -0.0202
+    "acc": -0.0059,
+    "auc": -0.0228
   },
-  "mrmr_event_selected": "54/82"
+  "mrmr_event_selected": "55/82"
 }

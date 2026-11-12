@@ -1,0 +1,64 @@
+{
+  "purpose": "汇报演示病例清单（demo/prepare_demo.py 自动生成）",
+  "generated_at": "2026-10-07 15:44:21",
+  "protocol": "test 集，@20 epochs/记录，与批量评估同口径",
+  "disagreement_thresholds": {
+    "prob_diff": 0.3,
+    "majority": 0.6,
+    "entropy": 1.099
+  },
+  "cases": [
+    {
+      "role": "normal",
+      "subject_id": "SUBJ_0029",
+      "clinical_label": "Normal",
+      "system_conclusion": "Normal",
+      "probs": {
+        "Normal": 0.5088,
+        "Borderline": 0.292,
+        "Abnormal": 0.1992
+      },
+      "top1_top2_margin": 0.2168,
+      "consistency": 0.63,
+      "disagreement_trigger_rate": 0.45,
+      "review_flag": false,
+      "report": "demo/reports/SUBJ_0029_report.md",
+      "talking_point": "正常病例：高置信判为正常、一致性良好，展示\"放心通过\"的常规初筛路径（秒级完成）。"
+    },
+    {
+      "role": "abnormal",
+      "subject_id": "SUBJ_0172",
+      "clinical_label": "Abnormal",
+      "system_conclusion": "Abnormal",
+      "probs": {
+        "Normal": 0.2729,
+        "Borderline": 0.2791,
+        "Abnormal": 0.448
+      },
+      "top1_top2_margin": 0.1689,
+      "consistency": 0.465,
+      "disagreement_trigger_rate": 0.5,
+      "review_flag": true,
+      "report": "demo/reports/SUBJ_0172_report.md",
+      "talking_point": "异常病例：高置信判为异常并附证据链与多 Agent 共识过程，展示\"抓到异常\"的可解释能力。"
+    },
+    {
+      "role": "suspicious",
+      "subject_id": "SUBJ_1514",
+      "clinical_label": "Borderline",
+      "system_conclusion": "可疑/界限性倾向（Normal 35.3% vs Abnormal 34.5%）",
+      "probs": {
+        "Normal": 0.3525,
+        "Borderline": 0.302,
+        "Abnormal": 0.3455
+      },
+      "top1_top2_margin": 0.007,
+      "consistency": 0.535,
+      "disagreement_trigger_rate": 0.3,
+      "review_flag": true,
+      "report": "demo/reports/SUBJ_1514_report.md",
+      "talking_point": "可疑病例：置信差小、系统主动建议人工复核，展示临床安全设计——AI 只做初筛，拿不准就交还医生。"
+    }
+  ],
+  "elapsed_seconds": 142.5
+}

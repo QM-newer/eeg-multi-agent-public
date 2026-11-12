@@ -1,4 +1,4 @@
-# scripts/extract_full_features.py
+﻿# scripts/extract_full_features.py
 """
 一次性提取 614 维多域特征（时域228 + 频域152 + 时频152 + 事件82）并存盘。
 
@@ -9,10 +9,10 @@
     [380:532) timefreq
     [532:614) event
 
-口径（与既有基线一致）：
-    train/val: max 100 epochs/record（lightgbm_binary 训练口径）
-    test:      max 20  epochs/record（evaluate_binary 评估口径）
-    归一化:    train@100 fit 的逐通道统计量，并回写 checkpoints/norm_stats.json
+口径（2026-11 剔除 ≥18 岁受试者重训后统一为 @20）：
+    train/val/test: max 20 epochs/record（与全部重训模型一致，
+    norm 统计量与训练时 prepare_dataset(train@20) 完全相同）
+    归一化:    train@20 fit 的逐通道统计量，并回写 checkpoints/norm_stats.json
 
 输出（E:/eeg_asd_cache/features/）:
     {split}_feat.npy        (n, 614) float32
@@ -38,9 +38,9 @@ from data.epoch_cache import EpochCache, save_norm_stats
 from training.common import extract_multi_domain_features
 from utils.io_utils import save_json
 
-OUT_DIR = os.path.join(os.path.dirname(DATA_CONFIG["epoch_cache_dir"]), "features")
+OUT_DIR = os.path.join("cache", "features")  # 2026-11 起存本地（E: 盘写入不稳定）
 
-SPLIT_PROTOCOL = [("train", 100), ("val", 100), ("test", 20)]
+SPLIT_PROTOCOL = [("train", 10), ("val", 10), ("test", 10)]
 
 
 def main(n_jobs=None):
@@ -54,9 +54,9 @@ def main(n_jobs=None):
     cache = EpochCache()
     print(cache.summary())
 
-    # 归一化统计量：train@100（与 lightgbm_binary 训练时一致），并回写 norm_stats.json
-    print("\n[1/2] 拟合归一化统计量（train @100 epochs/record）...")
-    mean, std = cache.fit_normalizer("train", max_epochs_per_record=100)
+    # 归一化统计量：train@20（与重训模型 prepare_dataset 口径一致），并回写 norm_stats.json
+    print("\n[1/2] 拟合归一化统计量（train @20 epochs/record）...")
+    mean, std = cache.fit_normalizer("train", max_epochs_per_record=10)
     save_norm_stats(mean, std)
     print("  已回写 checkpoints/norm_stats.json")
 
@@ -65,7 +65,7 @@ def main(n_jobs=None):
         "dims": {"time_domain": 228, "freq_domain": 152, "timefreq": 152, "event": 82},
         "layout": {"time_domain": [0, 228], "freq_domain": [228, 380],
                    "timefreq": [380, 532], "event": [532, 614]},
-        "normalize": "per_channel (train@100 stats, 同 norm_stats.json)",
+        "normalize": "per_channel (train@20 stats, 同 norm_stats.json)",
         "splits": {},
     }
 

@@ -1,4 +1,4 @@
-# scripts/evaluate_binary.py
+﻿# scripts/evaluate_binary.py
 """
 二分类评估 + 置信度 Borderline 判定
 
@@ -86,7 +86,7 @@ def apply_borderline_threshold(p_abnormal, lo, hi):
     return labels
 
 
-def main(split="test", max_epochs_per_record=20, agents=None,
+def main(split="test", max_epochs_per_record=10, agents=None,
          agg_method="mean", borderline_range=None):
     if borderline_range is None:
         borderline_range = BORDERLINE_CONFIDENCE_RANGE
@@ -160,6 +160,14 @@ def main(split="test", max_epochs_per_record=20, agents=None,
         bin_f1 = f1_score(sub_y_binary, sub_pred_binary, average="macro")
         bin_auc = roc_auc_score(sub_y_binary, p_abnormal)
 
+        # ---- 二分类混淆矩阵 + 筛查指标（Sens/Spec/PPV/NPV，被试级）----
+        cm_bin = confusion_matrix(sub_y_binary, sub_pred_binary, labels=[0, 1])
+        tn, fp, fn, tp = (int(v) for v in cm_bin.ravel())
+        sens = tp / (tp + fn) if (tp + fn) > 0 else None   # 敏感度 = Abnormal 臂召回
+        spec = tn / (tn + fp) if (tn + fp) > 0 else None   # 特异度 = Normal 臂召回
+        ppv = tp / (tp + fp) if (tp + fp) > 0 else None    # 阳性预测值
+        npv = tn / (tn + fn) if (tn + fn) > 0 else None    # 阴性预测值
+
         # ---- 置信度 Borderline 评估 ----
         sub_pred_3class = apply_borderline_threshold(p_abnormal, lo, hi)
         # 只有原始三分类中 Normal(0) 和 Abnormal(2) 的被试才能算"正确"
@@ -179,19 +187,30 @@ def main(split="test", max_epochs_per_record=20, agents=None,
                 "accuracy": round(float(bin_acc), 4),
                 "macro_f1": round(float(bin_f1), 4),
                 "auc": round(float(bin_auc), 4),
+                "confusion_matrix": {"tn": tn, "fp": fp, "fn": fn, "tp": tp},
+                "sensitivity": round(float(sens), 4) if sens is not None else None,
+                "specificity": round(float(spec), 4) if spec is not None else None,
+                "ppv": round(float(ppv), 4) if ppv is not None else None,
+                "npv": round(float(npv), 4) if npv is not None else None,
             },
             "confidence_borderline": {
                 "accuracy_non_borderline": round(float(acc_3class), 4),
                 "macro_f1_non_borderline": round(float(f1_3class), 4),
                 "macro_f1_all": round(float(f1_3class_all), 4),
                 "n_predicted_borderline": n_borderline_pred,
+                # 3x3 混淆矩阵：行=真实(Normal/Borderline/Abnormal)，列=预测
+                "confusion_matrix_3class": confusion_matrix(
+                    sub_y_3class, sub_pred_3class, labels=[0, 1, 2]).tolist(),
             },
         }
         report["agents"][name] = agent_report
 
+        _fmt = lambda v: f"{v:.4f}" if v is not None else "  —"
         print(f"\n  [{name}]  ({elapsed:.0f}s)")
         print(f"    二分类: acc={bin_acc:.4f}  F1={bin_f1:.4f}  AUC={bin_auc:.4f}  "
               f"(基线 {base_binary:.4f})")
+        print(f"    混淆矩阵: TN={tn} FP={fp} FN={fn} TP={tp}  "
+              f"Sens={_fmt(sens)}  Spec={_fmt(spec)}  PPV={_fmt(ppv)}  NPV={_fmt(npv)}")
         print(f"    置信度3分类: acc(非Borderline)={acc_3class:.4f}  F1(非BL)={f1_3class:.4f}  "
               f"F1(全量)={f1_3class_all:.4f}  判可疑={n_borderline_pred}人")
 
@@ -220,7 +239,7 @@ def main(split="test", max_epochs_per_record=20, agents=None,
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="test")
-    ap.add_argument("--max-epochs-per-record", type=int, default=20)
+    ap.add_argument("--max-epochs-per-record", type=int, default=10)
     ap.add_argument("--agents", default=None, help="逗号分隔；默认自动挑选已训练的")
     ap.add_argument("--agg-method", default="mean", help="聚合方式: mean/max/p90")
     ap.add_argument("--borderline-range", nargs=2, type=float, default=None,

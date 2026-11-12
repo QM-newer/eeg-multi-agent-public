@@ -1,4 +1,4 @@
-# scripts/compare_label_sources.py
+﻿# scripts/compare_label_sources.py
 """
 标签源对比实验：project（临床病例表） vs raw_index（原始文件编码）
 
@@ -74,7 +74,7 @@ def get_subject_source_map(subject_ids, epoch_cache=None):
     return load_record_index()
 
 
-def main(split="test", max_epochs_per_record=20):
+def main(split="test", max_epochs_per_record=10):
     print("=" * 74)
     print(f"标签源对比实验（{split} 集）")
     print("=" * 74)
@@ -252,6 +252,6 @@ def main(split="test", max_epochs_per_record=20):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="test", choices=["test", "val"])
-    ap.add_argument("--max-epochs-per-record", type=int, default=20)
+    ap.add_argument("--max-epochs-per-record", type=int, default=10)
     a = ap.parse_args()
     main(split=a.split, max_epochs_per_record=a.max_epochs_per_record)

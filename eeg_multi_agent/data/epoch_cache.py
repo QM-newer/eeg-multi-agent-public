@@ -20,9 +20,33 @@ build_epoch_cache.py 产出的目录结构：
 
 import os
 import csv
+import json
+import hashlib
 import numpy as np
 
 from config import DATA_CONFIG
+
+
+EXCLUSION_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data", "exclude_records.json")
+
+
+def _exclusion_sig():
+    """剔除名单指纹，用于本地缓存命名（名单变更即换缓存，避免读到旧数据）"""
+    rec, sub = load_exclusions()
+    raw = "|".join(sorted(rec)) + "#" + "|".join(sorted(sub))
+    return hashlib.md5(raw.encode("utf-8")).hexdigest()[:8]
+
+
+def load_exclusions(path=None):
+    """读取剔除清单（C6：可确认年龄 >=18 的记录/受试者），返回 (record_ids, subject_ids)"""
+    path = path or EXCLUSION_PATH
+    if not os.path.exists(path):
+        return set(), set()
+    with open(path, encoding="utf-8") as f:
+        spec = json.load(f)
+    return set(spec.get("record_ids", [])), set(spec.get("subject_ids", []))
 
 
 class EpochCache(object):
@@ -42,6 +66,11 @@ class EpochCache(object):
         self.rows = [r for r in rows
                      if r.get("status") in ("ok", "skipped_exists")
                      and int(r.get("n_epochs") or 0) > 0]
+        excl_rec, excl_sub = load_exclusions()
+        if excl_rec or excl_sub:
+            self.rows = [r for r in self.rows
+                         if r["record_id"] not in excl_rec
+                         and r["subject_id"] not in excl_sub]
         if not self.rows:
             raise RuntimeError(f"缓存清单里没有可用记录: {self.manifest_path}")
 
@@ -146,11 +175,37 @@ class EpochCache(object):
         """
         idx = self.build_index(split, max_epochs_per_record=max_epochs_per_record, seed=seed)
         n = len(idx["y"])
-        X = np.empty((n, self.n_channels, self.n_times), dtype=np.float32)
-        for k in range(n):
-            X[k] = self.get_epoch(idx["rec_ids"][k], idx["ep_ids"][k])
-            if verbose and (k + 1) % 20000 == 0:
-                print(f"    载入 {k+1}/{n}")
+
+        # 本地 raw-X 缓存：避免每个模型都从 E: 盘逐条读数千个小文件
+        cache_path = self._local_split_cache(split, max_epochs_per_record, seed, n)
+        X = None
+        if cache_path and os.path.exists(cache_path):
+            try:
+                with np.load(cache_path, allow_pickle=False) as z:
+                    if z["X"].shape == (n, self.n_channels, self.n_times):
+                        X = z["X"]
+                        idx["y"] = z["y"]
+                        idx["subject_ids"] = z["subject_ids"]
+                        if verbose:
+                            print(f"    本地缓存命中: {os.path.basename(cache_path)}")
+            except Exception as e:
+                if verbose:
+                    print(f"    缓存读取失败，回退逐条载入: {e}")
+                X = None
+        if X is None:
+            X = np.empty((n, self.n_channels, self.n_times), dtype=np.float32)
+            for k in range(n):
+                X[k] = self.get_epoch(idx["rec_ids"][k], idx["ep_ids"][k])
+                if verbose and (k + 1) % 20000 == 0:
+                    print(f"    载入 {k+1}/{n}")
+            if cache_path:
+                os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+                try:
+                    np.savez(cache_path, X=X,
+                             y=np.asarray(idx["y"]),
+                             subject_ids=np.asarray(idx["subject_ids"]))
+                except Exception as e:
+                    print(f"    缓存写入失败（忽略）: {e}")
 
         if normalize == "per_channel":
             if norm_stats is None:
@@ -163,6 +218,15 @@ class EpochCache(object):
             mean = std = None
 
         return X, idx["y"], idx["subject_ids"], (mean, std)
+
+    def _local_split_cache(self, split, mep, seed, n):
+        """本地 raw-X 缓存路径（未归一化，跨模型/跨脚本复用）"""
+        root = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "cache", "splits")
+        tag = "all" if mep is None else str(mep)
+        fn = f"{split}_mep{tag}_s{seed or 0}_{_exclusion_sig()}_n{n}.npz"
+        return os.path.join(root, fn)
 
     def fit_normalizer(self, split="train", max_epochs_per_record=None, sample=20000):
         """只用训练集估计逐通道 mean/std（避免划分泄露）"""

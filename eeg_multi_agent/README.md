@@ -1,169 +1,70 @@
-# EEG Multi-Agent 诊断系统
+# EEG Multi-Agent (EEG-MAS)
 
-基于多Agent协作的脑电自动诊断系统，针对界限性EEG等边界样本设计，通过多模型协作与分歧仲裁提升诊断准确性和一致性。
+面向常规儿科脑电（EEG）三分类筛查的多智能体系统。四个异构诊断 Agent 通过**质量感知动态加权投票**融合，并配合跨 Agent 一致性评分、特征级证据链与**校准后的人工复核升级标记**。系统不再包含仲裁（二次推理）阶段。
+
+## 核心结果（test，@10 协议）
+
+| 配置 | 准确率 (95% CI) | 备注 |
+|---|---|---|
+| 多数类基线 | 0.5466 | 全判 Normal |
+| EEGNet（最佳单模型） | **0.6441** (0.581–0.702) | 唯一显著优于基线，McNemar p = 0.028 |
+| 融合系统（部署配置） | 0.6144 (0.551–0.674) | 未超最佳单模型（p = 0.23） |
+| 融合系统（含事件特征） | 0.5720 | 事件特征块有害，−4.2 pt |
+
+- 队列：**1,588** 条常规儿科记录（0–17 岁；9 条 ≥18 岁已剔除），train 1,113 / val 239 / test 236
+- 协议：每条记录均匀抽样至多 10 个 2-s epoch（@10），test 共 2,360 epochs
+- 标签：三分类 Normal / Borderline / Abnormal；二分类为 **Normal vs. (Borderline + Abnormal)**
+- 部署特征维数：532-d（614-d 去掉 82-d 事件特征块，再经 mRMR 选 128）
+- 聚合：mean 为全局预指定口径，p90 仅作敏感性分析
+- 升级标记校准：48.4% 触发率、55.3% 错误召回（val 选择，test 报告）
 
 ## 项目结构
 
 ```
 eeg_multi_agent/
 ├── config.py                 # 全局配置
-├── agents/                   # Agent层（9个Agent）
-│   ├── base_agent.py         # Agent基类
-│   ├── feature_agents/       # 特征工程组（3个）
-│   ├── diagnosis_agents/     # 诊断推理组（4个）
-│   └── validation_agents/    # 解释验证组（2个）
-├── orchestrator/             # 协调层
-│   ├── orchestrator.py       # 协调器主类
+├── agents/                   # Agent 层
+│   ├── feature_agents/       # 特征工程组（时域/频域/时频）
+│   ├── diagnosis_agents/     # 诊断推理组（LightGBM/EEGNet/TCN/Transformer）
+│   └── validation_agents/    # 解释验证组（可解释性/一致性）
+├── orchestrator/
+│   ├── orchestrator.py       # 协调层主类
 │   ├── voting.py             # 加权投票
-│   ├── disagreement.py       # 分歧检测与仲裁
-│   └── dynamic_weight.py     # 动态权重调整
-├── models/                   # 深度学习模型
-│   ├── eegnet.py
-│   ├── tcn.py
-│   └── eeg_transformer.py
-├── data/                     # 数据层
-│   ├── reader.py             # 数据读取
-│   ├── preprocessor.py       # 预处理流水线
-│   └── dataset.py            # 数据集构建
-├── evaluation/               # 实验评估
-│   └── metrics.py            # 评价指标
-├── utils/                    # 工具函数
-├── scripts/                  # 可执行脚本
-│   ├── run_single_diagnosis.py   # 单样本诊断演示
-│   └── run_batch_evaluation.py  # 批量评估
-├── checkpoints/              # 模型权重
-├── results/                  # 实验结果
-└── notebooks/                # 探索性notebook
+│   ├── disagreement.py       # 分歧检测（仅用作升级标记）
+│   └── dynamic_weight.py     # SNR 感知的动态权重（三档）
+├── models/                   # EEGNet / TCN / Transformer
+├── data/                     # 读取、预处理、epoch 缓存
+├── training/                 # 训练脚本
+├── evaluation/               # 指标
+├── scripts/                  # 评估、消融、作图、制表脚本
+├── outputs/                  # 结果 JSON（论文所有数字的来源）
+└── checkpoints/              # 模型权重（不纳入版本控制）
 ```
 
-## 系统架构
-
-三层九Agent金字塔架构：
-
-- **特征工程层**（3个Agent）：时域、频域、时频域特征提取
-- **诊断推理层**（4个Agent）：LightGBM、EEGNet、TCN、Transformer
-- **解释验证层**（2个Agent）：可解释性分析、一致性校验
-- **协调层**：任务调度、加权投票、分歧仲裁、动态权重
-
-## 快速开始
-
-### 环境要求
-
-- Python 3.8+
-- PyTorch
-- NumPy, SciPy, scikit-learn
-
-### 安装依赖
+## 安装与使用
 
 ```bash
 pip install -r requirements.txt
-```
-
-### 单样本诊断演示
-
-```bash
 cd eeg_multi_agent
-python scripts/run_single_diagnosis.py
+python scripts/run_single_diagnosis.py     # 单样本诊断
+python scripts/evaluate_binary.py          # 二分类评估
+python scripts/evaluate_subject_level.py   # 被试级评估
 ```
 
-### 批量评估
+模型权重位于 `checkpoints/`（未上传）。将权重放入后，`Orchestrator` 会自动加载；缺失时退回随机初始化占位模式。
 
-```bash
-python scripts/run_batch_evaluation.py
-```
+## 数据
 
-> 注：当前模型为随机初始化占位模式，需先通过 `training/` 训练并将权重放入 `checkpoints/`，再传入 `Orchestrator(model_paths=...)` 切换为真实推理。
+原始信号与病例表涉及患者隐私，**不随仓库分发**。`data/subject_master.csv`、`data/record_index.csv` 与所有 `.xlsx` 均被 `.gitignore` 排除。
 
-## 核心功能
+- 采样率 500 Hz → 0.5–45 Hz 带通 → 50 Hz 陷波 → 降采样 250 Hz → 平均参考
+- 2 s epoch、50% 重叠，按记录自身峰峰值中位数的 3 倍做自适应伪迹剔除（保留率中位 0.91）
+- 通道：Ch1–Ch19
 
-1. **多Agent协作诊断**：四种不同归纳偏置的模型协作，多样性最大化
-2. **分歧仲裁机制**：边界样本自动触发二次诊断
-3. **动态权重调整**：根据信号质量自适应调整各Agent权重
-4. **可解释性分析**：特征重要性排序与诊断解释
-5. **一致性校验**：多Agent结果一致性评估，可疑样本自动标记
+## 复现说明
 
-## 数据格式
+`outputs/*.json` 是论文各表各图的唯一数据来源，仓库中的脚本直接读取这些文件生成表格与图。训练权重与逐样本结果因体积与隐私原因不公开，可向通讯作者索取。
 
-支持格式：
-- XLTEK/Natus (.eeg/.erd/.ent)
-- EDF (.edf)
+## 引用
 
-分类标签：三分类（0=Normal 正常, 1=Borderline 界限性, 2=Abnormal 异常）
-
-## 数据清洗与标签定义
-
-病例来源：`脑电+病例_原始备份.xlsx`（项目上级目录，1037 条原始记录），医生已提供结构化标注。
-
-清洗流水线：`data/cleaner.py`（对应设计文档阶段一），执行列名规范化 → 匿名化 → 重复EEG标记 → 日期/年龄统一 → 三分类编码 → 波形变量标准化，输出 `data/subject_master.csv`。
-
-运行方式：
-
-```bash
-python -m data.cleaner
-```
-
-清洗要点：
-- 原始备份表头带注释（如 `异常\n（正常=0，异常=1，界限=2）`），已做列名规范化，同时兼容简化表头版本
-- **年龄以医生记录为准**：出生日期列有 199 条为 `1970-01-01`（Excel 空日期解析为 Unix epoch），计算值不可靠；差异 >1 岁的 53 条已用 `age_check_flag` 标记待核查
-- 重复检查记录 10 人 20 条，已用 `eeg_sequence` / `first_record` 标记（敏感性分析可仅保留首次记录）
-
-「异常」列与「脑电图印象」文本交叉验证 **0 冲突**，映射规则如下：
-
-| 原始「异常」列 | 脑电图印象文本 | 类别 | 类别索引 | 样本数 |
-|---|---|---|---|---|
-| 0 | 正常范围… | Normal | 0 | 508 (55.2%) |
-| 2 | 界限性… | Borderline | 1 | 92 (10.0%) |
-| 1 | 异常… | Abnormal | 2 | 321 (34.8%) |
-| 空 | 空 | 无标签，剔除 | — | 116 |
-
-> 注意：原始编码到类别索引**不是恒等映射**（1→Abnormal、2→Borderline），规则已固化在 `data/label_mapper.py` 的 `RAW_CODE_TO_CLASS` 中。
-
-可用样本 **921 条 / 911 名受试者**，类别不平衡比 5.52:1（界限性样本最少，是本项目的核心难点）。
-
-## 当前进度
-
-- [x] Agent框架与统一接口（BaseAgent）
-- [x] 三个特征Agent（时域/频域/时频域）
-- [x] 四个诊断Agent（LightGBM/EEGNet/TCN/Transformer）
-- [x] 两个验证Agent（可解释性/一致性）
-- [x] 协调层（加权投票/分歧检测/动态权重）
-- [x] 深度模型结构定义（models/）
-- [x] 评估指标与演示脚本
-- [x] 数据层骨架与工具函数
-- [x] **病例标签映射（data/label_mapper.py，基于真实病例数据）**
-- [x] **数据清洗流水线（data/cleaner.py，输出 data/subject_master.csv）**
-- [x] **真实EEG文件解析（data/xltek_reader.py，XLTEK .erd delta 解码，已与参考实现结构级校验通过）**
-- [x] **记录级主表（data/build_record_index.py → data/record_index.csv，1830 条记录对齐）**
-- [x] **epoch 缓存构建（scripts/build_epoch_cache.py + data/epoch_cache.py）**
-- [ ] 模型训练（training/，已接入真实缓存，待缓存构建完成后重训）
-- [ ] 消融实验与对比评估
-
-### 真实数据接入说明
-
-- 原始信号在 `E:/脑电数据按姓名整理`（1830 条记录 / 1778 名受试者，663GB），
-  采样率 500Hz，32 AC + 3 DC = 35 通道，记录中位时长约 4 小时
-- 解码要点（与上游 XltekDataReader 的差异见 `data/xltek_reader.py` 文件头注释）：
-  2 字节增量为小端、discardbits 只乘一次、绝对值统一排在包尾
-- 快速自检：`python scripts/probe_read.py --seconds 10`
-- 记录主表：`python -m data.build_record_index`
-- epoch 缓存：`python scripts/build_epoch_cache.py --workers 12`
-  （1598 条 × 100 epoch，输出 `E:/eeg_asd_cache/epochs`，约 6GB / 80 分钟）
-
-### 预处理与关键实测参数
-
-- 采样率 500Hz → 带通 0.5-45Hz → **50Hz 陷波**（本数据集工频干扰最高占 63% 能量，
-  仅靠 45Hz 四阶 Butterworth 衰减不足 5dB，必须先陷波）→ 降采样 250Hz → 平均参考
-- 2 秒 epoch、重叠 50%，按每条记录自身峰峰值中位数的 3 倍做自适应伪迹剔除
-  （保留率中位约 0.91），每条记录均匀抽样至多 100 个 epoch
-- 通道：默认 Ch1~Ch19（`config.DATA_CONFIG["eeg_channel_indices"]`）。
-  Ch1~Ch23 幅值正常，Ch24~Ch27 峰值恰为满 16bit 量程（非 EEG），Ch33~Ch35 为恒定 DC 通道
-- 实验结果与结论见上级目录 `项目进展报告.md`（test 集：epoch 级融合 0.537，
-  被试级最优单Agent 0.597，多数类基线 0.550）
-- 归一化一致性：训练集估计的逐通道 mean/std 存于 `checkpoints/norm_stats.json`，
-  训练（`training/common.prepare_dataset`）与推理（`agents/diagnosis_agents/*._preprocess`）
-  共用同一变换；没有该文件时 Agent 退回逐样本全局标准化（旧行为）
-- 类别不平衡：Borderline 仅约 12%，深度模型用带权交叉熵，LightGBM 用 `class_weight="balanced"`
-
-## 论文引用
-
-待补充...
+待论文正式接收后补充。

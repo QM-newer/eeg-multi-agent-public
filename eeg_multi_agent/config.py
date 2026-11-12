@@ -132,7 +132,7 @@ AGENT_WEIGHTS = {
     "transformer": 0.25,
 }
 
-# 特征/验证类 Agent（不直接投票，仅产出特征或解释，供诊断 Agent 与仲裁使用）
+# 特征/验证类 Agent（不直接投票，仅产出特征或解释，供诊断 Agent 与可解释性分析使用）
 FEATURE_AGENTS = {
     "time_domain": True,
     "freq_domain": True,
@@ -153,23 +153,6 @@ ORCHESTRATOR_CONFIG = {
     },
     "disagreement_config": {             # 见下方 DISAGREEMENT_CONFIG，此处可覆盖
     },
-    "arbitration": {                     # 分歧仲裁（补充空间域特征 → 重推理 → 可信度裁决）
-        "enable": True,
-        "tta": True,                     # 深度模型二次诊断时用时间翻转做测试时增强
-        "gain_range": 0.05,              # 置信增益归一化范围（±0.05 映射到 0-1）
-        "credibility_weights": {         # 特征可信度三因子权重（和为1）
-            "consensus": 0.40,           # 与共识分布的余弦相似度
-            "conf_gain": 0.35,           # 二次诊断后的置信度增益
-            "quality_fit": 0.25,         # 与当前信号质量的适配度
-        },
-        "spatial_bands": {               # 空间域特征使用的频带（与 FEATURE_CONFIG 对齐）
-            "delta": (0.5, 4),
-            "theta": (4, 8),
-            "alpha": (8, 13),
-            "beta": (13, 30),
-            "gamma": (30, 45),
-        },
-    },
 }
 
 # ============================================================
@@ -187,7 +170,7 @@ QUALITY_CONFIG = {
     "flat_std_threshold": 0.5,        # 平坦（掉线）通道标准差阈值
 }
 
-# 质量等级 → 各 Agent 适配度（供仲裁阶段计算特征可信度）
+# 质量等级 → 各 Agent 适配度（SNR 感知动态权重使用）
 QUALITY_FIT_SCORES = {
     "high":   {"lightgbm": 0.80, "eegnet": 1.00, "tcn": 0.90, "transformer": 1.00},
     "medium": {"lightgbm": 1.00, "eegnet": 1.00, "tcn": 1.00, "transformer": 1.00},
@@ -281,12 +264,12 @@ MODEL_CONFIG = {
 # 训练配置
 # ============================================================
 TRAIN_CONFIG = {
-    "batch_size": 64,
+    "batch_size": 128,          # 2026-11 提速：CPU 训练下减少批次数（原 64；再大则每 epoch 更新次数过少）
     "lr": 1e-3,
     "lr_scheduler": "reduce_on_plateau",   # None / "reduce_on_plateau" / "cosine"
     "weight_decay": 1e-4,
     "epochs": 100,
-    "early_stop_patience": 15,
+    "early_stop_patience": 10,  # 2026-11 提速：原 15
     "device": "cpu",            # 有 GPU 改成 "cuda"（或调用 ensure_device()）
     "save_best": True,          # 是否只保留最优权重
     "shuffle": True,

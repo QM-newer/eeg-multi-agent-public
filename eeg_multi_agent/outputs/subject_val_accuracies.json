@@ -1,6 +1,6 @@
 {
-  "lightgbm": 0.6083,
-  "eegnet": 0.6,
-  "tcn": 0.5417,
-  "transformer": 0.5542
+  "lightgbm": 0.6109,
+  "eegnet": 0.5983,
+  "tcn": 0.5356,
+  "transformer": 0.4937
 }

@@ -1,0 +1,176 @@
+{
+  "split": "test",
+  "n_epochs": 2360,
+  "n_subjects": 236,
+  "borderline_range": [
+    0.35,
+    0.65
+  ],
+  "agg_method": "p90",
+  "agents": {
+    "lightgbm": {
+      "seconds": 298.0,
+      "binary": {
+        "accuracy": 0.5212,
+        "macro_f1": 0.4844,
+        "auc": 0.6663,
+        "confusion_matrix": {
+          "tn": 30,
+          "fp": 99,
+          "fn": 14,
+          "tp": 93
+        },
+        "sensitivity": 0.8692,
+        "specificity": 0.2326,
+        "ppv": 0.4844,
+        "npv": 0.6818
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.2212,
+        "macro_f1_non_borderline": 0.3258,
+        "macro_f1_all": 0.2876,
+        "n_predicted_borderline": 160,
+        "confusion_matrix_3class": [
+          [
+            6,
+            100,
+            23
+          ],
+          [
+            0,
+            22,
+            6
+          ],
+          [
+            1,
+            38,
+            40
+          ]
+        ]
+      }
+    },
+    "eegnet": {
+      "seconds": 4.8,
+      "binary": {
+        "accuracy": 0.572,
+        "macro_f1": 0.5573,
+        "auc": 0.6897,
+        "confusion_matrix": {
+          "tn": 46,
+          "fp": 83,
+          "fn": 18,
+          "tp": 89
+        },
+        "sensitivity": 0.8318,
+        "specificity": 0.3566,
+        "ppv": 0.5174,
+        "npv": 0.7188
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.1587,
+        "macro_f1_non_borderline": 0.25,
+        "macro_f1_all": 0.231,
+        "n_predicted_borderline": 177,
+        "confusion_matrix_3class": [
+          [
+            0,
+            109,
+            20
+          ],
+          [
+            0,
+            22,
+            6
+          ],
+          [
+            0,
+            46,
+            33
+          ]
+        ]
+      }
+    },
+    "tcn": {
+      "seconds": 19.5,
+      "binary": {
+        "accuracy": 0.5466,
+        "macro_f1": 0.5164,
+        "auc": 0.682,
+        "confusion_matrix": {
+          "tn": 35,
+          "fp": 94,
+          "fn": 13,
+          "tp": 94
+        },
+        "sensitivity": 0.8785,
+        "specificity": 0.2713,
+        "ppv": 0.5,
+        "npv": 0.7292
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.3029,
+        "macro_f1_non_borderline": 0.3644,
+        "macro_f1_all": 0.2913,
+        "n_predicted_borderline": 110,
+        "confusion_matrix_3class": [
+          [
+            8,
+            76,
+            45
+          ],
+          [
+            2,
+            13,
+            13
+          ],
+          [
+            3,
+            21,
+            55
+          ]
+        ]
+      }
+    },
+    "transformer": {
+      "seconds": 6.0,
+      "binary": {
+        "accuracy": 0.5085,
+        "macro_f1": 0.4549,
+        "auc": 0.6034,
+        "confusion_matrix": {
+          "tn": 23,
+          "fp": 106,
+          "fn": 10,
+          "tp": 97
+        },
+        "sensitivity": 0.9065,
+        "specificity": 0.1783,
+        "ppv": 0.4778,
+        "npv": 0.697
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.1635,
+        "macro_f1_non_borderline": 0.2506,
+        "macro_f1_all": 0.2341,
+        "n_predicted_borderline": 171,
+        "confusion_matrix_3class": [
+          [
+            2,
+            102,
+            25
+          ],
+          [
+            0,
+            22,
+            6
+          ],
+          [
+            0,
+            47,
+            32
+          ]
+        ]
+      }
+    }
+  }
+}

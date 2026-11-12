@@ -1,7 +1,7 @@
 {
-  "protocol": "subject-level binary, meta=LGBM on val, agg=p90, test@20",
-  "n_test_subjects": 238,
-  "baseline_majority": 0.5504,
+  "protocol": "subject-level binary, meta=LGBM on val, agg=mean, test@20",
+  "n_test_subjects": 236,
+  "baseline_majority": 0.5466,
   "bases": {
     "lightgbm": {
       "agents": [
@@ -12,55 +12,135 @@
       ],
       "variants": {
         "stacking_full": {
-          "acc": 0.5798,
-          "macro_f1": 0.5711,
-          "auc": 0.6339
+          "acc": 0.6186,
+          "macro_f1": 0.6182,
+          "auc": 0.6396,
+          "sensitivity": 0.6449,
+          "specificity": 0.5969,
+          "confusion_matrix": {
+            "tn": 77,
+            "fp": 52,
+            "fn": 38,
+            "tp": 69
+          }
         },
         "A4_no_eegnet": {
-          "acc": 0.6092,
-          "macro_f1": 0.5985,
-          "auc": 0.6682
+          "acc": 0.5466,
+          "macro_f1": 0.5465,
+          "auc": 0.587,
+          "sensitivity": 0.5888,
+          "specificity": 0.5116,
+          "confusion_matrix": {
+            "tn": 66,
+            "fp": 63,
+            "fn": 44,
+            "tp": 63
+          }
         },
         "A5_no_tcn": {
-          "acc": 0.5546,
-          "macro_f1": 0.5521,
-          "auc": 0.6116
+          "acc": 0.6314,
+          "macro_f1": 0.6299,
+          "auc": 0.6569,
+          "sensitivity": 0.6262,
+          "specificity": 0.6357,
+          "confusion_matrix": {
+            "tn": 82,
+            "fp": 47,
+            "fn": 40,
+            "tp": 67
+          }
         },
         "A6_no_transformer": {
-          "acc": 0.5966,
-          "macro_f1": 0.591,
-          "auc": 0.6551
+          "acc": 0.6102,
+          "macro_f1": 0.6101,
+          "auc": 0.6405,
+          "sensitivity": 0.6636,
+          "specificity": 0.5659,
+          "confusion_matrix": {
+            "tn": 73,
+            "fp": 56,
+            "fn": 36,
+            "tp": 71
+          }
         },
         "A9_soft_voting_equal": {
-          "acc": 0.5168,
-          "macro_f1": 0.4635,
-          "auc": 0.6855
+          "acc": 0.6144,
+          "macro_f1": 0.6128,
+          "auc": 0.6681,
+          "sensitivity": 0.6075,
+          "specificity": 0.6202,
+          "confusion_matrix": {
+            "tn": 80,
+            "fp": 49,
+            "fn": 42,
+            "tp": 65
+          }
         },
         "hard_voting": {
-          "acc": 0.5336,
-          "macro_f1": 0.496,
+          "acc": 0.6314,
+          "macro_f1": 0.621,
           "auc": null,
-          "note": "4 agents majority vote, tie→Normal"
+          "note": "4 agents majority vote, tie→Normal",
+          "sensitivity": 0.514,
+          "specificity": 0.7287,
+          "confusion_matrix": {
+            "tn": 94,
+            "fp": 35,
+            "fn": 52,
+            "tp": 55
+          }
         },
         "single_lightgbm": {
-          "acc": 0.5294,
-          "macro_f1": 0.4876,
-          "auc": 0.681
+          "acc": 0.6102,
+          "macro_f1": 0.6088,
+          "auc": 0.6494,
+          "sensitivity": 0.6075,
+          "specificity": 0.6124,
+          "confusion_matrix": {
+            "tn": 79,
+            "fp": 50,
+            "fn": 42,
+            "tp": 65
+          }
         },
         "single_eegnet": {
-          "acc": 0.5462,
-          "macro_f1": 0.5216,
-          "auc": 0.6826
+          "acc": 0.6441,
+          "macro_f1": 0.639,
+          "auc": 0.6893,
+          "sensitivity": 0.5794,
+          "specificity": 0.6977,
+          "confusion_matrix": {
+            "tn": 90,
+            "fp": 39,
+            "fn": 45,
+            "tp": 62
+          }
         },
         "single_tcn": {
-          "acc": 0.5168,
-          "macro_f1": 0.4852,
-          "auc": 0.657
+          "acc": 0.5847,
+          "macro_f1": 0.5845,
+          "auc": 0.6648,
+          "sensitivity": 0.6168,
+          "specificity": 0.5581,
+          "confusion_matrix": {
+            "tn": 72,
+            "fp": 57,
+            "fn": 41,
+            "tp": 66
+          }
         },
         "single_transformer": {
-          "acc": 0.4748,
-          "macro_f1": 0.3801,
-          "auc": 0.6185
+          "acc": 0.6059,
+          "macro_f1": 0.596,
+          "auc": 0.6097,
+          "sensitivity": 0.4953,
+          "specificity": 0.6977,
+          "confusion_matrix": {
+            "tn": 90,
+            "fp": 39,
+            "fn": 54,
+            "tp": 53
+          }
         }
       }
     },
@@ -73,55 +153,135 @@
       ],
       "variants": {
         "stacking_full": {
-          "acc": 0.605,
-          "macro_f1": 0.5968,
-          "auc": 0.6541
+          "acc": 0.6144,
+          "macro_f1": 0.6144,
+          "auc": 0.6346,
+          "sensitivity": 0.6822,
+          "specificity": 0.5581,
+          "confusion_matrix": {
+            "tn": 72,
+            "fp": 57,
+            "fn": 34,
+            "tp": 73
+          }
         },
         "A4_no_eegnet": {
-          "acc": 0.5966,
-          "macro_f1": 0.5901,
-          "auc": 0.6583
+          "acc": 0.5678,
+          "macro_f1": 0.5673,
+          "auc": 0.6029,
+          "sensitivity": 0.6636,
+          "specificity": 0.4884,
+          "confusion_matrix": {
+            "tn": 63,
+            "fp": 66,
+            "fn": 36,
+            "tp": 71
+          }
         },
         "A5_no_tcn": {
-          "acc": 0.5504,
-          "macro_f1": 0.5462,
-          "auc": 0.6059
+          "acc": 0.6102,
+          "macro_f1": 0.6101,
+          "auc": 0.6532,
+          "sensitivity": 0.6636,
+          "specificity": 0.5659,
+          "confusion_matrix": {
+            "tn": 73,
+            "fp": 56,
+            "fn": 36,
+            "tp": 71
+          }
         },
         "A6_no_transformer": {
-          "acc": 0.6134,
-          "macro_f1": 0.6107,
-          "auc": 0.6458
+          "acc": 0.6059,
+          "macro_f1": 0.6056,
+          "auc": 0.6181,
+          "sensitivity": 0.6355,
+          "specificity": 0.5814,
+          "confusion_matrix": {
+            "tn": 75,
+            "fp": 54,
+            "fn": 39,
+            "tp": 68
+          }
         },
         "A9_soft_voting_equal": {
-          "acc": 0.5168,
-          "macro_f1": 0.4603,
-          "auc": 0.6864
+          "acc": 0.6144,
+          "macro_f1": 0.6113,
+          "auc": 0.6701,
+          "sensitivity": 0.5794,
+          "specificity": 0.6434,
+          "confusion_matrix": {
+            "tn": 83,
+            "fp": 46,
+            "fn": 45,
+            "tp": 62
+          }
         },
         "hard_voting": {
-          "acc": 0.5336,
-          "macro_f1": 0.4908,
+          "acc": 0.6314,
+          "macro_f1": 0.621,
           "auc": null,
-          "note": "4 agents majority vote, tie→Normal"
+          "note": "4 agents majority vote, tie→Normal",
+          "sensitivity": 0.514,
+          "specificity": 0.7287,
+          "confusion_matrix": {
+            "tn": 94,
+            "fp": 35,
+            "fn": 52,
+            "tp": 55
+          }
         },
         "single_lightgbm_event": {
-          "acc": 0.5126,
-          "macro_f1": 0.4573,
-          "auc": 0.6861
+          "acc": 0.6271,
+          "macro_f1": 0.6225,
+          "auc": 0.6615,
+          "sensitivity": 0.5701,
+          "specificity": 0.6744,
+          "confusion_matrix": {
+            "tn": 87,
+            "fp": 42,
+            "fn": 46,
+            "tp": 61
+          }
         },
         "single_eegnet": {
-          "acc": 0.5462,
-          "macro_f1": 0.5216,
-          "auc": 0.6826
+          "acc": 0.6441,
+          "macro_f1": 0.639,
+          "auc": 0.6893,
+          "sensitivity": 0.5794,
+          "specificity": 0.6977,
+          "confusion_matrix": {
+            "tn": 90,
+            "fp": 39,
+            "fn": 45,
+            "tp": 62
+          }
         },
         "single_tcn": {
-          "acc": 0.5168,
-          "macro_f1": 0.4852,
-          "auc": 0.657
+          "acc": 0.5847,
+          "macro_f1": 0.5845,
+          "auc": 0.6648,
+          "sensitivity": 0.6168,
+          "specificity": 0.5581,
+          "confusion_matrix": {
+            "tn": 72,
+            "fp": 57,
+            "fn": 41,
+            "tp": 66
+          }
         },
         "single_transformer": {
-          "acc": 0.4748,
-          "macro_f1": 0.3801,
-          "auc": 0.6185
+          "acc": 0.6059,
+          "macro_f1": 0.596,
+          "auc": 0.6097,
+          "sensitivity": 0.4953,
+          "specificity": 0.6977,
+          "confusion_matrix": {
+            "tn": 90,
+            "fp": 39,
+            "fn": 54,
+            "tp": 53
+          }
         }
       }
     }

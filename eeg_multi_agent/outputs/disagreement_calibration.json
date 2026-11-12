@@ -1,16 +1,16 @@
 {
-  "protocol": "val@20, 3-class Orchestrator, 4 diagnosis agents",
-  "n_epochs": 4800,
-  "n_subjects": 240,
+  "protocol": "val@20, 3-class Orchestrator, 4 diagnosis agents, single-round voting",
+  "n_epochs": 2390,
+  "n_subjects": 239,
   "metric_distributions": {
     "max_prob_diff": {
-      "0.05": 0.0911,
-      "0.25": 0.1357,
-      "0.5": 0.1779,
-      "0.75": 0.2325,
-      "0.9": 0.2947,
-      "0.95": 0.3328,
-      "0.99": 0.4432
+      "0.05": 0.0886,
+      "0.25": 0.1469,
+      "0.5": 0.1997,
+      "0.75": 0.2709,
+      "0.9": 0.3625,
+      "0.95": 0.4246,
+      "0.99": 0.5571
     },
     "majority_ratio": {
       "0.05": 0.5,
@@ -22,123 +22,448 @@
       "0.99": 1.0
     },
     "entropy": {
-      "0.05": 1.0282,
-      "0.25": 1.0742,
-      "0.5": 1.0878,
-      "0.75": 1.0937,
-      "0.9": 1.0966,
-      "0.95": 1.0975,
+      "0.05": 1.0356,
+      "0.25": 1.0733,
+      "0.5": 1.086,
+      "0.75": 1.0933,
+      "0.9": 1.0965,
+      "0.95": 1.0976,
       "0.99": 1.0984
     }
   },
   "current_config_firing": {
-    "rule1_prob_diff": 0.6669,
-    "rule2_majority": 0.3262,
+    "rule1_prob_diff": 0.7297,
+    "rule2_majority": 0.3707,
     "rule3_entropy": 1.0,
     "combined": 1.0
   },
   "baselines": {
-    "never_arbitrate_subject_acc": 0.5833,
-    "always_arbitrate_subject_acc": 0.5792
+    "epoch_acc_all": 0.559,
+    "subject_acc_all": 0.5941,
+    "n_wrong_epochs": 1054
   },
   "grid_top10": [
     {
-      "prob_diff_threshold": 1.0,
+      "prob_diff_threshold": 0.3,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.4841,
+      "n_triggered": 1157,
+      "error_recall": 0.5531,
+      "error_precision": 0.5039,
+      "flagged_epoch_acc": 0.4961
+    },
+    {
+      "prob_diff_threshold": 0.35,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.4715,
+      "n_triggered": 1127,
+      "error_recall": 0.5427,
+      "error_precision": 0.5075,
+      "flagged_epoch_acc": 0.4925
+    },
+    {
+      "prob_diff_threshold": 0.4,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.431,
+      "n_triggered": 1030,
+      "error_recall": 0.5171,
+      "error_precision": 0.5291,
+      "flagged_epoch_acc": 0.4709
+    },
+    {
+      "prob_diff_threshold": 0.35,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.4372,
+      "n_triggered": 1045,
+      "error_recall": 0.5095,
+      "error_precision": 0.5139,
+      "flagged_epoch_acc": 0.4861
+    },
+    {
+      "prob_diff_threshold": 0.4,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.4079,
+      "n_triggered": 975,
+      "error_recall": 0.4905,
+      "error_precision": 0.5303,
+      "flagged_epoch_acc": 0.4697
+    },
+    {
+      "prob_diff_threshold": 0.45,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.4025,
+      "n_triggered": 962,
+      "error_recall": 0.4886,
+      "error_precision": 0.5353,
+      "flagged_epoch_acc": 0.4647
+    },
+    {
+      "prob_diff_threshold": 0.5,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3916,
+      "n_triggered": 936,
+      "error_recall": 0.482,
+      "error_precision": 0.5427,
+      "flagged_epoch_acc": 0.4573
+    },
+    {
+      "prob_diff_threshold": 0.55,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3799,
+      "n_triggered": 908,
+      "error_recall": 0.4725,
+      "error_precision": 0.5485,
+      "flagged_epoch_acc": 0.4515
+    },
+    {
+      "prob_diff_threshold": 0.45,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3887,
+      "n_triggered": 929,
+      "error_recall": 0.4725,
+      "error_precision": 0.5361,
+      "flagged_epoch_acc": 0.4639
+    },
+    {
+      "prob_diff_threshold": 0.2,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.4983,
+      "n_triggered": 1191,
+      "error_recall": 0.4715,
+      "error_precision": 0.4173,
+      "flagged_epoch_acc": 0.5827
+    }
+  ],
+  "pareto": [
+    {
+      "prob_diff_threshold": 0.9,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.0004,
+      "n_triggered": 1,
+      "error_recall": 0.0009,
+      "error_precision": 1.0,
+      "flagged_epoch_acc": 0.0
     },
     {
       "prob_diff_threshold": 0.85,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0002,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
-    },
-    {
-      "prob_diff_threshold": 0.9,
-      "label_majority_threshold": 0.5,
-      "entropy_threshold": 1.1,
-      "trigger_rate": 0.0002,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
-    },
-    {
-      "prob_diff_threshold": 0.95,
-      "label_majority_threshold": 0.5,
-      "entropy_threshold": 1.1,
-      "trigger_rate": 0.0002,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
-    },
-    {
-      "prob_diff_threshold": 0.75,
-      "label_majority_threshold": 0.5,
-      "entropy_threshold": 1.1,
-      "trigger_rate": 0.0004,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.0008,
+      "n_triggered": 2,
+      "error_recall": 0.0019,
+      "error_precision": 1.0,
+      "flagged_epoch_acc": 0.0
     },
     {
       "prob_diff_threshold": 0.8,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0004,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.0021,
+      "n_triggered": 5,
+      "error_recall": 0.0047,
+      "error_precision": 1.0,
+      "flagged_epoch_acc": 0.0
+    },
+    {
+      "prob_diff_threshold": 0.75,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.0033,
+      "n_triggered": 8,
+      "error_recall": 0.0057,
+      "error_precision": 0.75,
+      "flagged_epoch_acc": 0.25
     },
     {
       "prob_diff_threshold": 0.7,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0008,
-      "epoch_acc": 0.5406,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.0042,
+      "n_triggered": 10,
+      "error_recall": 0.0076,
+      "error_precision": 0.8,
+      "flagged_epoch_acc": 0.2
     },
     {
       "prob_diff_threshold": 0.65,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.001,
-      "epoch_acc": 0.5406,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.0059,
+      "n_triggered": 14,
+      "error_recall": 0.0095,
+      "error_precision": 0.7143,
+      "flagged_epoch_acc": 0.2857
     },
     {
       "prob_diff_threshold": 0.6,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0017,
-      "epoch_acc": 0.5406,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.0075,
+      "n_triggered": 18,
+      "error_recall": 0.0123,
+      "error_precision": 0.7222,
+      "flagged_epoch_acc": 0.2778
     },
     {
       "prob_diff_threshold": 0.55,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0027,
-      "epoch_acc": 0.5406,
-      "subject_acc": 0.5833
-    }
-  ],
-  "pareto": [
+      "trigger_rate": 0.0105,
+      "n_triggered": 25,
+      "error_recall": 0.0161,
+      "error_precision": 0.68,
+      "flagged_epoch_acc": 0.32
+    },
     {
-      "prob_diff_threshold": 1.0,
+      "prob_diff_threshold": 0.5,
       "label_majority_threshold": 0.5,
       "entropy_threshold": 1.1,
-      "trigger_rate": 0.0,
-      "epoch_acc": 0.5408,
-      "subject_acc": 0.5833
+      "trigger_rate": 0.023,
+      "n_triggered": 55,
+      "error_recall": 0.0266,
+      "error_precision": 0.5091,
+      "flagged_epoch_acc": 0.4909
+    },
+    {
+      "prob_diff_threshold": 0.45,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.0368,
+      "n_triggered": 88,
+      "error_recall": 0.0351,
+      "error_precision": 0.4205,
+      "flagged_epoch_acc": 0.5795
+    },
+    {
+      "prob_diff_threshold": 0.4,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.069,
+      "n_triggered": 165,
+      "error_recall": 0.0683,
+      "error_precision": 0.4364,
+      "flagged_epoch_acc": 0.5636
+    },
+    {
+      "prob_diff_threshold": 0.35,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.1134,
+      "n_triggered": 271,
+      "error_recall": 0.0977,
+      "error_precision": 0.3801,
+      "flagged_epoch_acc": 0.6199
+    },
+    {
+      "prob_diff_threshold": 0.3,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.1845,
+      "n_triggered": 441,
+      "error_recall": 0.1746,
+      "error_precision": 0.4172,
+      "flagged_epoch_acc": 0.5828
+    },
+    {
+      "prob_diff_threshold": 0.25,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3163,
+      "n_triggered": 756,
+      "error_recall": 0.2998,
+      "error_precision": 0.418,
+      "flagged_epoch_acc": 0.582
+    },
+    {
+      "prob_diff_threshold": 0.95,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3707,
+      "n_triggered": 886,
+      "error_recall": 0.4602,
+      "error_precision": 0.5474,
+      "flagged_epoch_acc": 0.4526
+    },
+    {
+      "prob_diff_threshold": 0.85,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3711,
+      "n_triggered": 887,
+      "error_recall": 0.4611,
+      "error_precision": 0.5479,
+      "flagged_epoch_acc": 0.4521
+    },
+    {
+      "prob_diff_threshold": 0.75,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3715,
+      "n_triggered": 888,
+      "error_recall": 0.462,
+      "error_precision": 0.5484,
+      "flagged_epoch_acc": 0.4516
+    },
+    {
+      "prob_diff_threshold": 0.7,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.372,
+      "n_triggered": 889,
+      "error_recall": 0.463,
+      "error_precision": 0.5489,
+      "flagged_epoch_acc": 0.4511
+    },
+    {
+      "prob_diff_threshold": 0.6,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3732,
+      "n_triggered": 892,
+      "error_recall": 0.4639,
+      "error_precision": 0.5482,
+      "flagged_epoch_acc": 0.4518
+    },
+    {
+      "prob_diff_threshold": 0.55,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.3736,
+      "n_triggered": 893,
+      "error_recall": 0.4649,
+      "error_precision": 0.5487,
+      "flagged_epoch_acc": 0.4513
+    },
+    {
+      "prob_diff_threshold": 0.8,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3749,
+      "n_triggered": 896,
+      "error_recall": 0.4668,
+      "error_precision": 0.5491,
+      "flagged_epoch_acc": 0.4509
+    },
+    {
+      "prob_diff_threshold": 0.7,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3762,
+      "n_triggered": 899,
+      "error_recall": 0.4677,
+      "error_precision": 0.5484,
+      "flagged_epoch_acc": 0.4516
+    },
+    {
+      "prob_diff_threshold": 0.65,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3774,
+      "n_triggered": 902,
+      "error_recall": 0.4687,
+      "error_precision": 0.5477,
+      "flagged_epoch_acc": 0.4523
+    },
+    {
+      "prob_diff_threshold": 0.6,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3782,
+      "n_triggered": 904,
+      "error_recall": 0.4706,
+      "error_precision": 0.5487,
+      "flagged_epoch_acc": 0.4513
+    },
+    {
+      "prob_diff_threshold": 0.55,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3799,
+      "n_triggered": 908,
+      "error_recall": 0.4725,
+      "error_precision": 0.5485,
+      "flagged_epoch_acc": 0.4515
+    },
+    {
+      "prob_diff_threshold": 0.5,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.3916,
+      "n_triggered": 936,
+      "error_recall": 0.482,
+      "error_precision": 0.5427,
+      "flagged_epoch_acc": 0.4573
+    },
+    {
+      "prob_diff_threshold": 0.45,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.4025,
+      "n_triggered": 962,
+      "error_recall": 0.4886,
+      "error_precision": 0.5353,
+      "flagged_epoch_acc": 0.4647
+    },
+    {
+      "prob_diff_threshold": 0.4,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.4079,
+      "n_triggered": 975,
+      "error_recall": 0.4905,
+      "error_precision": 0.5303,
+      "flagged_epoch_acc": 0.4697
+    },
+    {
+      "prob_diff_threshold": 0.4,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.431,
+      "n_triggered": 1030,
+      "error_recall": 0.5171,
+      "error_precision": 0.5291,
+      "flagged_epoch_acc": 0.4709
+    },
+    {
+      "prob_diff_threshold": 0.35,
+      "label_majority_threshold": 0.5,
+      "entropy_threshold": 1.09,
+      "trigger_rate": 0.4715,
+      "n_triggered": 1127,
+      "error_recall": 0.5427,
+      "error_precision": 0.5075,
+      "flagged_epoch_acc": 0.4925
+    },
+    {
+      "prob_diff_threshold": 0.3,
+      "label_majority_threshold": 0.6,
+      "entropy_threshold": 1.1,
+      "trigger_rate": 0.4841,
+      "n_triggered": 1157,
+      "error_recall": 0.5531,
+      "error_precision": 0.5039,
+      "flagged_epoch_acc": 0.4961
     }
   ],
   "recommend": {
-    "prob_diff_threshold": 1.0,
-    "label_majority_threshold": 0.5,
+    "prob_diff_threshold": 0.3,
+    "label_majority_threshold": 0.6,
     "entropy_threshold": 1.1,
-    "trigger_rate": 0.0,
-    "epoch_acc": 0.5408,
-    "subject_acc": 0.5833
+    "trigger_rate": 0.4841,
+    "n_triggered": 1157,
+    "error_recall": 0.5531,
+    "error_precision": 0.5039,
+    "flagged_epoch_acc": 0.4961
   }
 }

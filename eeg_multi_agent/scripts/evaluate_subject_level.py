@@ -1,4 +1,4 @@
-# scripts/evaluate_subject_level.py
+﻿# scripts/evaluate_subject_level.py
 """
 被试级评估：把每个被试所有 epoch 的预测概率平均后投票，再算指标
 
@@ -77,7 +77,7 @@ def aggregate_subject(probs, sids, uniq, method="mean"):
         raise ValueError(f"未知聚合方式: {method}，可选: mean / max / p90")
 
 
-def main(split="test", max_epochs_per_record=20, agents=None, n_limit=None,
+def main(split="test", max_epochs_per_record=10, agents=None, n_limit=None,
          since_ts=None, agg_methods=None):
     if agg_methods is None:
         agg_methods = ["mean"]
@@ -174,7 +174,7 @@ def main(split="test", max_epochs_per_record=20, agents=None, n_limit=None,
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="test")
-    ap.add_argument("--max-epochs-per-record", type=int, default=20)
+    ap.add_argument("--max-epochs-per-record", type=int, default=10)
     ap.add_argument("--agents", default=None, help="逗号分隔；默认自动挑选已训练完成的")
     ap.add_argument("--n-limit", type=int, default=None)
     ap.add_argument("--since-ts", type=float, default=None,

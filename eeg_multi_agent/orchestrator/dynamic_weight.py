@@ -88,7 +88,7 @@ def adjust_weights_by_snr(base_weights, snr_db, artifact_ratio=None, config=None
 
 def quality_fit_scores(quality_level, agent_names):
     """
-    质量等级 → 各 Agent 的适配度分数（供仲裁阶段计算特征可信度）
+    质量等级 → 各 Agent 的适配度分数
 
     参数:
         quality_level: "high" / "medium" / "low"

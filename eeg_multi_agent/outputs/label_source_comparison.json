@@ -3,66 +3,66 @@
   "groups": {
     "lightgbm": {
       "project": {
-        "n_subjects": 121,
-        "accuracy": 0.4959,
-        "macro_f1": 0.3666,
-        "baseline": 0.5207,
-        "margin_over_baseline": -0.0248
+        "n_subjects": 119,
+        "accuracy": 0.521,
+        "macro_f1": 0.3679,
+        "baseline": 0.5126,
+        "margin_over_baseline": 0.0084
       },
       "raw_index": {
         "n_subjects": 117,
-        "accuracy": 0.5299,
-        "macro_f1": 0.3703,
+        "accuracy": 0.5726,
+        "macro_f1": 0.3794,
         "baseline": 0.5812,
-        "margin_over_baseline": -0.0513
+        "margin_over_baseline": -0.0085
       }
     },
     "eegnet": {
       "project": {
-        "n_subjects": 121,
-        "accuracy": 0.5537,
-        "macro_f1": 0.3951,
-        "baseline": 0.5207,
-        "margin_over_baseline": 0.0331
+        "n_subjects": 119,
+        "accuracy": 0.563,
+        "macro_f1": 0.4278,
+        "baseline": 0.5126,
+        "margin_over_baseline": 0.0504
       },
       "raw_index": {
         "n_subjects": 117,
-        "accuracy": 0.5812,
-        "macro_f1": 0.3981,
+        "accuracy": 0.6325,
+        "macro_f1": 0.4612,
         "baseline": 0.5812,
-        "margin_over_baseline": 0.0
+        "margin_over_baseline": 0.0513
       }
     },
     "tcn": {
       "project": {
-        "n_subjects": 121,
-        "accuracy": 0.4711,
-        "macro_f1": 0.3367,
-        "baseline": 0.5207,
-        "margin_over_baseline": -0.0496
+        "n_subjects": 119,
+        "accuracy": 0.5798,
+        "macro_f1": 0.4028,
+        "baseline": 0.5126,
+        "margin_over_baseline": 0.0672
       },
       "raw_index": {
         "n_subjects": 117,
-        "accuracy": 0.4786,
-        "macro_f1": 0.3391,
+        "accuracy": 0.5556,
+        "macro_f1": 0.3577,
         "baseline": 0.5812,
-        "margin_over_baseline": -0.1026
+        "margin_over_baseline": -0.0256
       }
     },
     "transformer": {
       "project": {
-        "n_subjects": 121,
-        "accuracy": 0.5207,
-        "macro_f1": 0.2283,
-        "baseline": 0.5207,
-        "margin_over_baseline": 0.0
+        "n_subjects": 119,
+        "accuracy": 0.4202,
+        "macro_f1": 0.3172,
+        "baseline": 0.5126,
+        "margin_over_baseline": -0.0924
       },
       "raw_index": {
         "n_subjects": 117,
-        "accuracy": 0.5812,
-        "macro_f1": 0.245,
+        "accuracy": 0.4957,
+        "macro_f1": 0.3571,
         "baseline": 0.5812,
-        "margin_over_baseline": 0.0
+        "margin_over_baseline": -0.0855
       }
     }
   }

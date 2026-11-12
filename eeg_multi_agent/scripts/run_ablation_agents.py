@@ -1,4 +1,4 @@
-# scripts/run_ablation_agents.py
+﻿# scripts/run_ablation_agents.py
 """
 消融实验 — Agent 侧（论文计划 5.4 A4~A6、A9）+ 硬投票基线（Baseline 2）
 
@@ -36,7 +36,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 import numpy as np
 import joblib
 import lightgbm as lgb
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, confusion_matrix
 
 from config import (
     BINARY_EVENT_MODEL_PATH, BINARY_EVENT_FUSION_PATH, BINARY_LABEL_MAP,
@@ -45,7 +45,7 @@ from config import (
 from data.epoch_cache import EpochCache
 from utils.io_utils import ensure_dir, save_json
 
-FEATURE_DIR = os.path.join("E:/eeg_asd_cache", "features")
+FEATURE_DIR = os.path.join("cache", "features")  # 2026-11 起存本地（E: 盘写入不稳定）
 
 DEEP_AGENTS = [  # (列名, 模块, 类名, BINARY_MODEL_PATHS 的 key)
     ("eegnet", "agents.diagnosis_agents.eegnet_agent", "EegNetAgent", "eegnet"),
@@ -61,24 +61,21 @@ DEEP_AGENTS = [  # (列名, 模块, 类名, BINARY_MODEL_PATHS 的 key)
 def _load_or_extract_feat20(split):
     """按 @20 epochs/record 口径取特征（与 train_stacking.py / 深度Agent 一致）。
 
-    test_feat.npy 本身就是 @20；val_feat.npy 是 @100（特征侧消融用），
-    因此 val 单独提取 @20 并缓存为 val20_feat.npy。
-    归一化用 norm_stats.json（train@100 统计量，与 LightGBM Agent 推理一致）。
+    2026-11 协议统一后 train/val/test 特征均为 @20（extract_full_features.py），
+    val_feat.npy 直接可用；不再复用历史 val20_feat.npy 缓存（旧数据集产物），
+    每次重新提取以保证与当前模型/数据一致。
+    归一化用 norm_stats.json（train@20 统计量，与 LightGBM Agent 训练/推理一致）。
     """
     if split == "test":
         return np.load(os.path.join(FEATURE_DIR, "test_feat.npy"))
-    path = os.path.join(FEATURE_DIR, "val20_feat.npy")
-    if os.path.exists(path):
-        return np.load(path)
-    print(f"    提取 val@20 特征（一次性，缓存到 {path}）...")
+    print("    提取 val@20 特征（协议统一后不复用旧缓存）...")
     from data.epoch_cache import EpochCache, load_norm_stats
     from training.common import extract_multi_domain_features
     cache = EpochCache()
     mean, std = load_norm_stats()
-    X, _, _, _ = cache.load_split("val", max_epochs_per_record=20,
+    X, _, _, _ = cache.load_split("val", max_epochs_per_record=10,
                                    normalize="per_channel", norm_stats=(mean, std))
-    feats, _ = extract_multi_domain_features(X, n_jobs=8, include_event=True)
-    np.save(path, feats.astype(np.float32))
+    feats, _ = extract_multi_domain_features(X, n_jobs=2, include_event=True)
     return feats
 
 
@@ -103,7 +100,7 @@ def lgbm_probs_from_features(split):
 def deep_agent_probs(split):
     """三个深度 Agent 的 epoch 概率（原始 µV 输入，Agent 内部归一化）"""
     cache = EpochCache()
-    X, y3, sids, _ = cache.load_split(split, max_epochs_per_record=20, normalize=None)
+    X, y3, sids, _ = cache.load_split(split, max_epochs_per_record=10, normalize=None)
     out = {}
     for col, module, cls_name, ckpt in DEEP_AGENTS:
         mod = __import__(module, fromlist=[cls_name])
@@ -167,13 +164,26 @@ def subject_meta(probs_dict, agent_cols, method="p90"):
     return M, y_bin, uniq
 
 
+def _cm_metrics(y_true, pred):
+    """被试级二分类混淆矩阵 + 敏感度/特异度（labels=[0,1]: Normal/Abnormal）"""
+    cm = confusion_matrix(y_true, pred, labels=[0, 1])
+    tn, fp, fn, tp = (int(v) for v in cm.ravel())
+    return {
+        "sensitivity": round(tp / (tp + fn), 4) if (tp + fn) else None,
+        "specificity": round(tn / (tn + fp), 4) if (tn + fp) else None,
+        "confusion_matrix": {"tn": tn, "fp": fp, "fn": fn, "tp": tp},
+    }
+
+
 def eval_pred(y_true, p_abn):
     pred = (p_abn >= 0.5).astype(int)
-    return {
+    out = {
         "acc": round(float(accuracy_score(y_true, pred)), 4),
         "macro_f1": round(float(f1_score(y_true, pred, average="macro")), 4),
         "auc": round(float(roc_auc_score(y_true, p_abn)), 4),
     }
+    out.update(_cm_metrics(y_true, pred))
+    return out
 
 
 def stacking_variant(val_M, val_y, test_M, test_y):
@@ -191,12 +201,14 @@ def hard_voting(test_M, test_y):
     votes = (test_M >= 0.5).astype(int).sum(axis=1)     # 判 Abnormal 的票数
     pred = (votes * 2 > test_M.shape[1]).astype(int)    # 严格过半才判 Abnormal
     n_agents = test_M.shape[1]
-    return {
+    out = {
         "acc": round(float(accuracy_score(test_y, pred)), 4),
         "macro_f1": round(float(f1_score(test_y, pred, average="macro")), 4),
         "auc": None,   # 硬投票无连续分数，不给 AUC
         "note": f"{n_agents} agents majority vote, tie→Normal",
     }
+    out.update(_cm_metrics(test_y, pred))
+    return out
 
 
 def main(force=False, agg="p90"):

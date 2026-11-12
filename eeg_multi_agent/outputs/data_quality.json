@@ -1,67 +1,67 @@
 {
   "cache_dir": "E:/eeg_asd_cache/epochs",
-  "n_records": 1597,
+  "n_records": 1588,
   "n_channels": 19,
   "n_times": 500,
   "sfreq": 250.0,
   "train": {
-    "n_records": 1119,
-    "n_subjects": 1119,
-    "n_epochs": 111804,
+    "n_records": 1113,
+    "n_subjects": 1113,
+    "n_epochs": 111204,
     "epochs_by_class": {
-      "Normal": 61804,
-      "Abnormal": 37000,
-      "Borderline": 13000
+      "Normal": 61604,
+      "Abnormal": 36700,
+      "Borderline": 12900
     },
     "records_by_class": {
-      "Normal": 619,
-      "Abnormal": 370,
-      "Borderline": 130
+      "Normal": 617,
+      "Abnormal": 367,
+      "Borderline": 129
     }
   },
   "val": {
-    "n_records": 240,
-    "n_subjects": 240,
-    "n_epochs": 23923,
+    "n_records": 239,
+    "n_subjects": 239,
+    "n_epochs": 23823,
     "epochs_by_class": {
       "Abnormal": 7823,
-      "Normal": 13300,
+      "Normal": 13200,
       "Borderline": 2800
     },
     "records_by_class": {
       "Abnormal": 79,
-      "Normal": 133,
+      "Normal": 132,
       "Borderline": 28
     }
   },
   "test": {
-    "n_records": 238,
-    "n_subjects": 238,
-    "n_epochs": 23774,
+    "n_records": 236,
+    "n_subjects": 236,
+    "n_epochs": 23574,
     "epochs_by_class": {
-      "Normal": 13100,
+      "Normal": 12900,
       "Abnormal": 7874,
       "Borderline": 2800
     },
     "records_by_class": {
-      "Normal": 131,
+      "Normal": 129,
       "Abnormal": 79,
       "Borderline": 28
     }
   },
   "snr_db": {
-    "mean": 18.334,
-    "median": 18.32,
-    "p10": 15.128,
+    "mean": 18.333,
+    "median": 18.305,
+    "p10": 15.129,
     "p90": 21.49,
     "min": 9.72,
     "max": 29.54
   },
   "artifact_ratio": {
-    "mean": 0.027,
+    "mean": 0.028,
     "median": 0.017,
     "p10": 0.002,
-    "p90": 0.065,
+    "p90": 0.066,
     "min": 0.0,
     "max": 0.294
   },
@@ -83,29 +83,29 @@
   },
   "amplitude": {
     "epoch_std_uV": {
-      "mean": 43.235,
-      "median": 36.08,
-      "p10": 24.099,
-      "p90": 69.793,
-      "min": 13.837,
-      "max": 137.256
+      "mean": 40.752,
+      "median": 37.2,
+      "p10": 21.381,
+      "p90": 64.184,
+      "min": 11.91,
+      "max": 141.969
     },
     "epoch_ptp_uV": {
-      "mean": 933.264,
-      "median": 683.348,
-      "p10": 353.105,
-      "p90": 1686.732,
-      "min": 165.055,
-      "max": 4872.893
+      "mean": 836.842,
+      "median": 699.719,
+      "p10": 318.443,
+      "p90": 1433.069,
+      "min": 134.711,
+      "max": 3113.093
     },
     "records_with_flat_channel": 0,
-    "sampled_records": 150
+    "sampled_records": 200
   },
   "band_power_percent": {
-    "delta0.5-4": 39.03,
-    "theta4-8": 15.6,
-    "alpha8-13": 11.56,
-    "beta13-30": 21.93,
-    "gamma30-45": 11.66
+    "delta0.5-4": 39.88,
+    "theta4-8": 15.89,
+    "alpha8-13": 11.72,
+    "beta13-30": 21.11,
+    "gamma30-45": 11.18
   }
 }

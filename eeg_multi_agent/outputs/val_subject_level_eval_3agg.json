@@ -1,0 +1,289 @@
+{
+  "split": "val",
+  "n_epochs": 2390,
+  "n_subjects": 239,
+  "agg_methods": [
+    "mean",
+    "max",
+    "p90"
+  ],
+  "agents": {
+    "lightgbm": {
+      "epoch_accuracy": 0.5431,
+      "seconds": 369.7,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.6109,
+          "subject_macro_f1": 0.4192,
+          "subject_confusion_matrix": [
+            [
+              100,
+              0,
+              32
+            ],
+            [
+              18,
+              0,
+              10
+            ],
+            [
+              33,
+              0,
+              46
+            ]
+          ]
+        },
+        "max": {
+          "subject_accuracy": 0.5983,
+          "subject_macro_f1": 0.4056,
+          "subject_confusion_matrix": [
+            [
+              103,
+              0,
+              29
+            ],
+            [
+              21,
+              0,
+              7
+            ],
+            [
+              38,
+              1,
+              40
+            ]
+          ]
+        },
+        "p90": {
+          "subject_accuracy": 0.5983,
+          "subject_macro_f1": 0.4102,
+          "subject_confusion_matrix": [
+            [
+              98,
+              0,
+              34
+            ],
+            [
+              18,
+              0,
+              10
+            ],
+            [
+              34,
+              0,
+              45
+            ]
+          ]
+        }
+      }
+    },
+    "eegnet": {
+      "epoch_accuracy": 0.5335,
+      "seconds": 9.0,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.5983,
+          "subject_macro_f1": 0.4158,
+          "subject_confusion_matrix": [
+            [
+              95,
+              2,
+              35
+            ],
+            [
+              19,
+              0,
+              9
+            ],
+            [
+              31,
+              0,
+              48
+            ]
+          ]
+        },
+        "max": {
+          "subject_accuracy": 0.5565,
+          "subject_macro_f1": 0.4355,
+          "subject_confusion_matrix": [
+            [
+              86,
+              13,
+              33
+            ],
+            [
+              15,
+              3,
+              10
+            ],
+            [
+              29,
+              6,
+              44
+            ]
+          ]
+        },
+        "p90": {
+          "subject_accuracy": 0.6234,
+          "subject_macro_f1": 0.5162,
+          "subject_confusion_matrix": [
+            [
+              92,
+              5,
+              35
+            ],
+            [
+              15,
+              5,
+              8
+            ],
+            [
+              26,
+              1,
+              52
+            ]
+          ]
+        }
+      }
+    },
+    "tcn": {
+      "epoch_accuracy": 0.5272,
+      "seconds": 37.9,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.5356,
+          "subject_macro_f1": 0.3476,
+          "subject_confusion_matrix": [
+            [
+              109,
+              8,
+              15
+            ],
+            [
+              21,
+              1,
+              6
+            ],
+            [
+              52,
+              9,
+              18
+            ]
+          ]
+        },
+        "max": {
+          "subject_accuracy": 0.5021,
+          "subject_macro_f1": 0.3249,
+          "subject_confusion_matrix": [
+            [
+              103,
+              12,
+              17
+            ],
+            [
+              22,
+              1,
+              5
+            ],
+            [
+              55,
+              8,
+              16
+            ]
+          ]
+        },
+        "p90": {
+          "subject_accuracy": 0.5314,
+          "subject_macro_f1": 0.3645,
+          "subject_confusion_matrix": [
+            [
+              105,
+              10,
+              17
+            ],
+            [
+              21,
+              2,
+              5
+            ],
+            [
+              51,
+              8,
+              20
+            ]
+          ]
+        }
+      }
+    },
+    "transformer": {
+      "epoch_accuracy": 0.405,
+      "seconds": 12.6,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.4937,
+          "subject_macro_f1": 0.3947,
+          "subject_confusion_matrix": [
+            [
+              69,
+              11,
+              52
+            ],
+            [
+              8,
+              3,
+              17
+            ],
+            [
+              25,
+              8,
+              46
+            ]
+          ]
+        },
+        "max": {
+          "subject_accuracy": 0.4435,
+          "subject_macro_f1": 0.3129,
+          "subject_confusion_matrix": [
+            [
+              39,
+              4,
+              89
+            ],
+            [
+              5,
+              0,
+              23
+            ],
+            [
+              10,
+              2,
+              67
+            ]
+          ]
+        },
+        "p90": {
+          "subject_accuracy": 0.4603,
+          "subject_macro_f1": 0.3729,
+          "subject_confusion_matrix": [
+            [
+              46,
+              7,
+              79
+            ],
+            [
+              5,
+              3,
+              20
+            ],
+            [
+              12,
+              6,
+              61
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "majority_baseline_subject": 0.5523
+}

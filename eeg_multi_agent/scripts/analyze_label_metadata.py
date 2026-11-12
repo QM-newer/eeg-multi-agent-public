@@ -45,8 +45,16 @@ def normalize_name(s):
 
 
 def load_joined():
-    """记录表（标签 + 划分）左连接病例表（报告描述 + 年龄）"""
+    """记录表（标签 + 划分）左连接病例表（报告描述 + 年龄）
+
+    2026-11 起按 data/exclude_records.json 过滤 ≥18 岁记录/受试者，
+    与 EpochCache 及稿件 n=1589 口径保持一致。
+    """
     rec = pd.read_csv(resolve_path("data/record_index.csv"))
+    from data.epoch_cache import load_exclusions
+    excl_rec, excl_sub = load_exclusions()
+    if excl_rec or excl_sub:
+        rec = rec[~rec["record_id"].isin(excl_rec) & ~rec["subject_id"].isin(excl_sub)]
     mas = pd.read_csv(resolve_path("data/subject_master.csv"))
     rec["_k"] = rec["folder"].map(normalize_name)
     mas["_k"] = mas["name_raw"].map(normalize_name)

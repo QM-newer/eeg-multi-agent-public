@@ -8,6 +8,9 @@ venv/
 
 # 模型权重（可通过 training/ 脚本重新生成）
 eeg_multi_agent/checkpoints/
+eeg_multi_agent/checkpoints_pre_exclusion/
+eeg_multi_agent/cache/
+*.zip
 
 # 患者隐私数据 —— 严禁上传
 *.xlsx
@@ -20,3 +23,5 @@ eeg_multi_agent/data/record_index.csv
 .vscode/
 Thumbs.db
 .DS_Store
+eeg_multi_agent/data/exclude_records.json
+*exclude_records*

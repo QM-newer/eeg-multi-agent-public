@@ -1,4 +1,4 @@
-# scripts/compute_subject_weights.py
+﻿# scripts/compute_subject_weights.py
 """
 按"被试级"验证准确率重新计算四个诊断Agent的融合权重
 
@@ -40,7 +40,7 @@ AGENT_PATHS = {
 }
 
 
-def main(max_epochs_per_record=20, split="val", write=True):
+def main(max_epochs_per_record=10, split="val", write=True):
     print("=" * 70)
     print(f"被试级权重计算（{split} 集，每记录最多 {max_epochs_per_record} epoch）")
     print("=" * 70)
@@ -92,7 +92,7 @@ def main(max_epochs_per_record=20, split="val", write=True):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--max-epochs-per-record", type=int, default=20)
+    ap.add_argument("--max-epochs-per-record", type=int, default=10)
     ap.add_argument("--split", default="val")
     ap.add_argument("--no-write", action="store_true")
     a = ap.parse_args()

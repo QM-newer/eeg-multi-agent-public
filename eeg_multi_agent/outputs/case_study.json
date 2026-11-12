@@ -1,0 +1,227 @@
+{
+  "subject": "SUBJ_0034",
+  "split": "test",
+  "protocol": "@10",
+  "n_epochs": 10,
+  "true_label": "Abnormal",
+  "subject_prob": [
+    0.383,
+    0.2405,
+    0.3765
+  ],
+  "subject_pred": "Normal",
+  "top2": {
+    "first": {
+      "label": "Normal",
+      "p": 0.383
+    },
+    "second": {
+      "label": "Abnormal",
+      "p": 0.3765
+    }
+  },
+  "n_disagreement_epochs": 6,
+  "mean_consistency": 0.4895,
+  "epochs": [
+    {
+      "true_label": "Abnormal",
+      "label": 0,
+      "prob": [
+        0.5292,
+        0.1666,
+        0.3042
+      ],
+      "confidence": 0.5292,
+      "quality_tier": null,
+      "snr_db": 16.94,
+      "disagreement": true,
+      "consistency": 0.4902,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 2,
+      "prob": [
+        0.3183,
+        0.2255,
+        0.4562
+      ],
+      "confidence": 0.4562,
+      "quality_tier": null,
+      "snr_db": 14.53,
+      "disagreement": false,
+      "consistency": 0.6568,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 2,
+      "prob": [
+        0.3841,
+        0.2128,
+        0.4031
+      ],
+      "confidence": 0.4031,
+      "quality_tier": null,
+      "snr_db": 14.08,
+      "disagreement": true,
+      "consistency": 0.3829,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 2,
+      "prob": [
+        0.3248,
+        0.282,
+        0.3932
+      ],
+      "confidence": 0.3932,
+      "quality_tier": null,
+      "snr_db": 14.62,
+      "disagreement": false,
+      "consistency": 0.5466,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 2,
+      "prob": [
+        0.3207,
+        0.224,
+        0.4553
+      ],
+      "confidence": 0.4553,
+      "quality_tier": null,
+      "snr_db": 15.77,
+      "disagreement": true,
+      "consistency": 0.3541,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 0,
+      "prob": [
+        0.4006,
+        0.2372,
+        0.3622
+      ],
+      "confidence": 0.4006,
+      "quality_tier": null,
+      "snr_db": 15.19,
+      "disagreement": false,
+      "consistency": 0.5246,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 0,
+      "prob": [
+        0.5068,
+        0.2155,
+        0.2776
+      ],
+      "confidence": 0.5068,
+      "quality_tier": null,
+      "snr_db": 18.66,
+      "disagreement": true,
+      "consistency": 0.4988,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 2,
+      "prob": [
+        0.3103,
+        0.2665,
+        0.4232
+      ],
+      "confidence": 0.4232,
+      "quality_tier": null,
+      "snr_db": 16.28,
+      "disagreement": true,
+      "consistency": 0.3824,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 0,
+      "prob": [
+        0.4506,
+        0.248,
+        0.3014
+      ],
+      "confidence": 0.4506,
+      "quality_tier": null,
+      "snr_db": 15.21,
+      "disagreement": false,
+      "consistency": 0.6518,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    },
+    {
+      "true_label": "Abnormal",
+      "label": 2,
+      "prob": [
+        0.2844,
+        0.3266,
+        0.389
+      ],
+      "confidence": 0.389,
+      "quality_tier": null,
+      "snr_db": 16.15,
+      "disagreement": true,
+      "consistency": 0.4064,
+      "weights": {
+        "lightgbm": 0.4855,
+        "eegnet": 0.4192,
+        "tcn": 0.0477,
+        "transformer": 0.0477
+      }
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "split": "test",
+  "n_epochs": 2360,
+  "n_subjects": 236,
+  "agg_methods": [
+    "mean"
+  ],
+  "agents": {
+    "lightgbm": {
+      "epoch_accuracy": 0.503,
+      "seconds": 310.8,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.5466,
+          "subject_macro_f1": 0.3757,
+          "subject_confusion_matrix": [
+            [
+              88,
+              0,
+              41
+            ],
+            [
+              19,
+              0,
+              9
+            ],
+            [
+              37,
+              1,
+              41
+            ]
+          ]
+        }
+      }
+    },
+    "eegnet": {
+      "epoch_accuracy": 0.5059,
+      "seconds": 5.5,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.5975,
+          "subject_macro_f1": 0.4448,
+          "subject_confusion_matrix": [
+            [
+              98,
+              3,
+              28
+            ],
+            [
+              14,
+              2,
+              12
+            ],
+            [
+              36,
+              2,
+              41
+            ]
+          ]
+        }
+      }
+    },
+    "tcn": {
+      "epoch_accuracy": 0.5199,
+      "seconds": 21.6,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.5678,
+          "subject_macro_f1": 0.3849,
+          "subject_confusion_matrix": [
+            [
+              108,
+              7,
+              14
+            ],
+            [
+              20,
+              1,
+              7
+            ],
+            [
+              49,
+              5,
+              25
+            ]
+          ]
+        }
+      }
+    },
+    "transformer": {
+      "epoch_accuracy": 0.3975,
+      "seconds": 6.5,
+      "aggregation": {
+        "mean": {
+          "subject_accuracy": 0.4576,
+          "subject_macro_f1": 0.3397,
+          "subject_confusion_matrix": [
+            [
+              55,
+              16,
+              58
+            ],
+            [
+              12,
+              0,
+              16
+            ],
+            [
+              22,
+              4,
+              53
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "majority_baseline_subject": 0.5466
+}

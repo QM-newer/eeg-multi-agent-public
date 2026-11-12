@@ -1,4 +1,4 @@
-# scripts/train_stacking.py
+﻿# scripts/train_stacking.py
 """
 Stacking 元模型融合
 
@@ -94,7 +94,7 @@ def aggregate_subject_features(probs, sids, uniq, method="mean"):
         raise ValueError(f"未知聚合: {method}")
 
 
-def main(split="test", max_epochs_per_record=20, meta_model="lr",
+def main(split="test", max_epochs_per_record=10, meta_model="lr",
          agg_method="mean", agents=None):
     print("=" * 74)
     print(f"Stacking 元模型融合（元模型={meta_model}，聚合={agg_method}）")
@@ -251,7 +251,7 @@ def main(split="test", max_epochs_per_record=20, meta_model="lr",
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="test")
-    ap.add_argument("--max-epochs-per-record", type=int, default=20)
+    ap.add_argument("--max-epochs-per-record", type=int, default=10)
     ap.add_argument("--meta-model", default="lr", help="lr 或 lightgbm")
     ap.add_argument("--agg-method", default="mean", help="mean/max/p90")
     ap.add_argument("--agents", default=None, help="逗号分隔；默认全部")

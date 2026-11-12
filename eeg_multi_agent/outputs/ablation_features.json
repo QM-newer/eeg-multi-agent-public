@@ -3,98 +3,98 @@
   "variants": {
     "full": {
       "n_features": 614,
-      "train_epoch_acc": 0.6624,
+      "train_epoch_acc": 0.9324,
       "subject_mean": {
-        "n_subjects": 238,
-        "accuracy": 0.6303,
-        "macro_f1": 0.6302,
-        "auc": 0.6834,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.572,
+        "macro_f1": 0.5686,
+        "auc": 0.6429,
+        "baseline": 0.5466
       },
       "subject_p90": {
-        "n_subjects": 238,
-        "accuracy": 0.5126,
-        "macro_f1": 0.4573,
-        "auc": 0.6861,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.5169,
+        "macro_f1": 0.4732,
+        "auc": 0.6542,
+        "baseline": 0.5466
       },
-      "seconds": 753.1
+      "seconds": 62.3
     },
     "no_event": {
       "n_features": 532,
-      "train_epoch_acc": 0.6735,
+      "train_epoch_acc": 0.9292,
       "subject_mean": {
-        "n_subjects": 238,
-        "accuracy": 0.6092,
-        "macro_f1": 0.6089,
-        "auc": 0.676,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.6144,
+        "macro_f1": 0.6138,
+        "auc": 0.6607,
+        "baseline": 0.5466
       },
       "subject_p90": {
-        "n_subjects": 238,
-        "accuracy": 0.5252,
-        "macro_f1": 0.4843,
-        "auc": 0.6751,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.5297,
+        "macro_f1": 0.4936,
+        "auc": 0.6786,
+        "baseline": 0.5466
       },
-      "seconds": 456.0
+      "seconds": 46.8
     },
     "A1_no_time": {
       "n_features": 386,
-      "train_epoch_acc": 0.6757,
+      "train_epoch_acc": 0.9327,
       "subject_mean": {
-        "n_subjects": 238,
-        "accuracy": 0.6218,
-        "macro_f1": 0.6217,
-        "auc": 0.6839,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.6144,
+        "macro_f1": 0.6119,
+        "auc": 0.6588,
+        "baseline": 0.5466
       },
       "subject_p90": {
-        "n_subjects": 238,
-        "accuracy": 0.5042,
-        "macro_f1": 0.4543,
-        "auc": 0.6922,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.5212,
+        "macro_f1": 0.4735,
+        "auc": 0.6628,
+        "baseline": 0.5466
       },
-      "seconds": 180.1
+      "seconds": 22.4
     },
     "A2_no_freq": {
       "n_features": 462,
-      "train_epoch_acc": 0.6592,
+      "train_epoch_acc": 0.9392,
       "subject_mean": {
-        "n_subjects": 238,
-        "accuracy": 0.5756,
-        "macro_f1": 0.5754,
-        "auc": 0.6328,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.5975,
+        "macro_f1": 0.5936,
+        "auc": 0.6491,
+        "baseline": 0.5466
       },
       "subject_p90": {
-        "n_subjects": 238,
-        "accuracy": 0.5,
-        "macro_f1": 0.4415,
-        "auc": 0.6449,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.5085,
+        "macro_f1": 0.4516,
+        "auc": 0.6243,
+        "baseline": 0.5466
       },
-      "seconds": 289.8
+      "seconds": 34.4
     },
     "A3_no_timefreq": {
       "n_features": 462,
-      "train_epoch_acc": 0.6657,
+      "train_epoch_acc": 0.9336,
       "subject_mean": {
-        "n_subjects": 238,
-        "accuracy": 0.605,
-        "macro_f1": 0.605,
-        "auc": 0.6805,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.6059,
+        "macro_f1": 0.6047,
+        "auc": 0.6633,
+        "baseline": 0.5466
       },
       "subject_p90": {
-        "n_subjects": 238,
-        "accuracy": 0.5294,
-        "macro_f1": 0.4927,
-        "auc": 0.6932,
-        "baseline": 0.5504
+        "n_subjects": 236,
+        "accuracy": 0.5085,
+        "macro_f1": 0.464,
+        "auc": 0.6965,
+        "baseline": 0.5466
       },
-      "seconds": 290.0
+      "seconds": 34.2
     }
   }
 }

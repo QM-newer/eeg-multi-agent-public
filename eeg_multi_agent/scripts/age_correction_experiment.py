@@ -1,4 +1,4 @@
-# scripts/age_correction_experiment.py
+﻿# scripts/age_correction_experiment.py
 """
 年龄校正实验
 
@@ -248,4 +248,12 @@ def main(max_epochs_per_record=100, n_select=128, n_jobs=None):
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--max-epochs-per-record", type=int, default=10,
+                    help="每条记录最多取多少 epoch（默认20，与重训协议一致）")
+    ap.add_argument("--n-select", type=int, default=128)
+    ap.add_argument("--n-jobs", type=int, default=2, help="特征提取并行进程数")
+    a = ap.parse_args()
+    main(max_epochs_per_record=a.max_epochs_per_record,
+         n_select=a.n_select, n_jobs=a.n_jobs)

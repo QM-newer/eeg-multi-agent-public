@@ -1,0 +1,176 @@
+{
+  "split": "val",
+  "n_epochs": 4780,
+  "n_subjects": 239,
+  "borderline_range": [
+    0.35,
+    0.65
+  ],
+  "agg_method": "p90",
+  "agents": {
+    "lightgbm": {
+      "seconds": 650.9,
+      "binary": {
+        "accuracy": 0.5732,
+        "macro_f1": 0.5414,
+        "auc": 0.7191,
+        "confusion_matrix": {
+          "tn": 37,
+          "fp": 95,
+          "fn": 7,
+          "tp": 100
+        },
+        "sensitivity": 0.9346,
+        "specificity": 0.2803,
+        "ppv": 0.5128,
+        "npv": 0.8409
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.1943,
+        "macro_f1_non_borderline": 0.2896,
+        "macro_f1_all": 0.2488,
+        "n_predicted_borderline": 165,
+        "confusion_matrix_3class": [
+          [
+            2,
+            106,
+            24
+          ],
+          [
+            1,
+            19,
+            8
+          ],
+          [
+            0,
+            40,
+            39
+          ]
+        ]
+      }
+    },
+    "eegnet": {
+      "seconds": 10.6,
+      "binary": {
+        "accuracy": 0.5941,
+        "macro_f1": 0.5756,
+        "auc": 0.7137,
+        "confusion_matrix": {
+          "tn": 46,
+          "fp": 86,
+          "fn": 11,
+          "tp": 96
+        },
+        "sensitivity": 0.8972,
+        "specificity": 0.3485,
+        "ppv": 0.5275,
+        "npv": 0.807
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.1943,
+        "macro_f1_non_borderline": 0.2898,
+        "macro_f1_all": 0.2453,
+        "n_predicted_borderline": 163,
+        "confusion_matrix_3class": [
+          [
+            3,
+            104,
+            25
+          ],
+          [
+            1,
+            18,
+            9
+          ],
+          [
+            0,
+            41,
+            38
+          ]
+        ]
+      }
+    },
+    "tcn": {
+      "seconds": 49.9,
+      "binary": {
+        "accuracy": 0.6444,
+        "macro_f1": 0.6437,
+        "auc": 0.7031,
+        "confusion_matrix": {
+          "tn": 72,
+          "fp": 60,
+          "fn": 25,
+          "tp": 82
+        },
+        "sensitivity": 0.7664,
+        "specificity": 0.5455,
+        "ppv": 0.5775,
+        "npv": 0.7423
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.2796,
+        "macro_f1_non_borderline": 0.4165,
+        "macro_f1_all": 0.3255,
+        "n_predicted_borderline": 149,
+        "confusion_matrix_3class": [
+          [
+            26,
+            87,
+            19
+          ],
+          [
+            4,
+            16,
+            8
+          ],
+          [
+            0,
+            46,
+            33
+          ]
+        ]
+      }
+    },
+    "transformer": {
+      "seconds": 24.4,
+      "binary": {
+        "accuracy": 0.5439,
+        "macro_f1": 0.5063,
+        "auc": 0.6952,
+        "confusion_matrix": {
+          "tn": 32,
+          "fp": 100,
+          "fn": 9,
+          "tp": 98
+        },
+        "sensitivity": 0.9159,
+        "specificity": 0.2424,
+        "ppv": 0.4949,
+        "npv": 0.7805
+      },
+      "confidence_borderline": {
+        "accuracy_non_borderline": 0.128,
+        "macro_f1_non_borderline": 0.2286,
+        "macro_f1_all": 0.2205,
+        "n_predicted_borderline": 195,
+        "confusion_matrix_3class": [
+          [
+            2,
+            117,
+            13
+          ],
+          [
+            1,
+            24,
+            3
+          ],
+          [
+            0,
+            54,
+            25
+          ]
+        ]
+      }
+    }
+  }
+}

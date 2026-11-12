@@ -15,6 +15,7 @@
     python scripts/generate_report.py                       # 自动挑一个 test 被试
     python scripts/generate_report.py --subject SUBJ_1234
     python scripts/generate_report.py --split val
+    python scripts/generate_report.py --subject SUBJ_1234 --out-dir demo/reports
 """
 import argparse
 import os
@@ -66,7 +67,7 @@ def subject_label_name(p_mean):
     return CLASS_NAMES[top]
 
 
-def main(split="test", subject=None, max_epochs=20):
+def main(split="test", subject=None, max_epochs=20, out_dir=None):
     print("=" * 74)
     print("单病例报告生成")
     print("=" * 74)
@@ -181,7 +182,7 @@ def main(split="test", subject=None, max_epochs=20):
     A(f"- 单被试推理耗时 {elapsed:.1f}s（{n_epochs} epoch，CPU）。")
     A("")
 
-    out_dir = resolve_path("outputs/reports")
+    out_dir = out_dir or resolve_path("outputs/reports")
     ensure_dir(out_dir)
     out_path = os.path.join(out_dir, f"{subject}_report.md")
     with open(out_path, "w", encoding="utf-8") as f:
@@ -197,5 +198,6 @@ if __name__ == "__main__":
     ap.add_argument("--split", default="test", help="从哪个 split 挑被试")
     ap.add_argument("--subject", default=None, help="被试ID，如 SUBJ_1234")
     ap.add_argument("--max-epochs", type=int, default=20)
+    ap.add_argument("--out-dir", default=None, help="报告输出目录（默认 outputs/reports）")
     a = ap.parse_args()
-    main(split=a.split, subject=a.subject, max_epochs=a.max_epochs)
+    main(split=a.split, subject=a.subject, max_epochs=a.max_epochs, out_dir=a.out_dir)

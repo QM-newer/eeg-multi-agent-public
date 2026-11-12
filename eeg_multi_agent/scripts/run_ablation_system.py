@@ -1,16 +1,16 @@
 # scripts/run_ablation_system.py
 """
-消融实验 — 系统机制侧（论文计划 5.4 A7/A8/A9，三分类完整系统口径）
+消融实验 — 系统机制侧（论文计划 5.4 A8/A9，三分类完整系统口径）
 
-对 test 集逐 epoch 走 Orchestrator 流程并缓存中间产物
-（质量报告、一轮结果、动态权重、仲裁结果与可信度），随后零成本重组出：
+系统定义为「SNR 感知动态权重 + 加权投票」，不含二次仲裁机制。
+对 test 集逐 epoch 走 Orchestrator 流程并缓存中间产物（质量报告、动态权重、一轮结果），
+随后零成本重组出：
 
-    full            完整系统：SNR动态权重 + 分歧仲裁（忠实复现 diagnose()）
-    A7_no_arbitration  去掉仲裁：动态权重 + 一轮结果直接投票
-    A8_fixed_weights   去掉动态权重：静态权重（agent_weights.json）贯穿投票与仲裁
-    A9_equal_weights   简单平均：全 Agent 等权（投票与仲裁基底均等权）
+    full              完整系统：SNR 动态权重 + 加权投票
+    A8_fixed_weights  去掉动态权重：静态权重（agent_weights.json）
+    A9_equal_weights  简单平均：全 Agent 等权
 
-同时报告论文要求的协作机制指标：分歧触发率、仲裁改善率。
+同时报告分歧触发率（仅作诊断状态统计，不参与最终判定）。
 
 输出:
     outputs/ablation_system.json
@@ -30,60 +30,36 @@ sys.stdout.reconfigure(encoding="utf-8")
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score
 
-from config import CLASS_NAMES, ORCHESTRATOR_CONFIG, resolve_path
+from config import CLASS_NAMES, resolve_path
 from data.epoch_cache import EpochCache
 from orchestrator.orchestrator import Orchestrator
 from orchestrator.voting import weighted_vote
 from orchestrator.disagreement import check_disagreement
-from orchestrator.dynamic_weight import adjust_weights_by_snr
-from orchestrator.arbitration import arbitrate
 from utils.io_utils import ensure_dir, save_json
 
 
-def run_epoch(system, x, cfg_dis, arb_enable):
+def run_epoch(system, x, cfg_dis):
     """单 epoch 完整流程，返回全部中间产物"""
     qr = system._assess_quality(x)
     dyn_w = system._adjust_weights(qr)
     feats = system._extract_features(x)
     first = system._run_diagnosis(x, feats)
     disagree = check_disagreement(first, cfg_dis)
-    arb_results, arb_info = None, None
-    if disagree and arb_enable:
-        arb_results, arb_info = arbitrate(
-            x, first, feats,
-            diagnosis_agents=system.diagnosis_agents,
-            weights=dyn_w,
-            sfreq=system.sfreq,
-            snr_db=qr["snr_db"],
-            quality_level=qr["quality_level"],
-        )
     return {"quality": qr, "dyn_weights": dyn_w, "first": first,
-            "disagree": disagree, "arb_results": arb_results, "arb_info": arb_info}
+            "disagree": disagree}
 
 
 def recombine(cached, mode, static_weights):
-    """按消融模式重组一轮流程，返回 (label, prob)"""
+    """按消融模式确定投票权重并投票，返回 (label, prob)"""
     names = [r["agent_name"] for r in cached["first"]]
     if mode == "A8_fixed_weights":
-        base_w = {n: static_weights.get(n, 1.0 / len(names)) for n in names}
+        weights = {n: static_weights.get(n, 1.0 / len(names)) for n in names}
     elif mode == "A9_equal_weights":
-        base_w = {n: 1.0 / len(names) for n in names}
+        weights = {n: 1.0 / len(names) for n in names}
     else:
-        base_w = cached["dyn_weights"]
+        weights = cached["dyn_weights"]
 
-    if mode == "A7_no_arbitration" or cached["arb_results"] is None:
-        results, weights = cached["first"], base_w
-    else:
-        # 仲裁路径：A8/A9 需以各自基底权重重算仲裁权重（可信度已缓存，无需重推理）
-        if mode in ("A8_fixed_weights", "A9_equal_weights"):
-            from orchestrator.arbitration import _arbitration_weights
-            arb_w = _arbitration_weights(
-                base_w, cached["arb_info"]["credibility"], names)
-        else:
-            arb_w = cached["arb_info"]["weights"]
-        results, weights = cached["arb_results"], arb_w
-
-    vote = weighted_vote(results, weights)
+    vote = weighted_vote(cached["first"], weights)
     return vote["label"], np.asarray(vote["prob"])
 
 
@@ -102,9 +78,9 @@ def metrics_block(y_true_ep, probs_ep, sids):
     }
 
 
-def main(max_epochs_per_record=20):
+def main(max_epochs_per_record=10):
     print("=" * 74)
-    print("消融实验 — 系统机制（A7 仲裁 / A8 动态权重 / A9 等权投票）")
+    print("消融实验 — 系统机制（A8 动态权重 / A9 等权投票）")
     print("=" * 74)
 
     cache = EpochCache()
@@ -119,37 +95,20 @@ def main(max_epochs_per_record=20):
     print(f"静态权重(来自 agent_weights.json): "
           + ", ".join(f"{k}={v:.3f}" for k, v in static_weights.items()))
 
-    arb_enable = bool(ORCHESTRATOR_CONFIG["arbitration"]["enable"])
-    print(f"仲裁开关: {'开' if arb_enable else '关'}")
-
     # ---- 逐 epoch 跑完整流程并缓存 ----
     print(f"\n逐 epoch 诊断并缓存中间产物（{n} 个）...")
     t0 = time.time()
     all_cached = []
     for i in range(n):
-        all_cached.append(run_epoch(system, X[i], system.disagreement_config, arb_enable))
+        all_cached.append(run_epoch(system, X[i], system.disagreement_config))
         if (i + 1) % 500 == 0:
             print(f"  {i+1}/{n}  ({time.time()-t0:.0f}s)")
     print(f"完成，耗时 {time.time()-t0:.0f}s")
 
-    # ---- 机制指标 ----
+    # ---- 机制指标：分歧触发率（仅记录，不改变判定）----
     n_disagree = sum(c["disagree"] for c in all_cached)
-    dis_idx = [i for i, c in enumerate(all_cached) if c["disagree"] and c["arb_results"]]
-    # 仲裁改善率：分歧样本中，仲裁后判对 vs 仲裁前（一轮加权投票）判对
-    correct_before = correct_after = 0
-    for i in dis_idx:
-        c = all_cached[i]
-        before = weighted_vote(c["first"], c["dyn_weights"])["label"]
-        after = weighted_vote(c["arb_results"], c["arb_info"]["weights"])["label"]
-        correct_before += int(before == y[i])
-        correct_after += int(after == y[i])
     mech = {
         "disagreement_rate": round(n_disagree / n, 4),
-        "arbitration_improvement": {
-            "n_disagreement_arbitrated": len(dis_idx),
-            "acc_before_arbitration": round(correct_before / max(len(dis_idx), 1), 4),
-            "acc_after_arbitration": round(correct_after / max(len(dis_idx), 1), 4),
-        },
     }
 
     # ---- 消融变体 ----
@@ -165,7 +124,7 @@ def main(max_epochs_per_record=20):
 
     subject_correct = {}          # 各变体的被试级判定正确性（McNemar 配对用）
     epoch_correct = {}            # 各变体的 epoch 级正确性（质量分层用）
-    for mode in ("full", "A7_no_arbitration", "A8_fixed_weights", "A9_equal_weights"):
+    for mode in ("full", "A8_fixed_weights", "A9_equal_weights"):
         probs = np.zeros((n, len(CLASS_NAMES)))
         for i, c in enumerate(all_cached):
             label, p = recombine(c, mode, static_weights)
@@ -250,6 +209,6 @@ def main(max_epochs_per_record=20):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--max-epochs-per-record", type=int, default=20)
+    ap.add_argument("--max-epochs-per-record", type=int, default=10)
     a = ap.parse_args()
     main(max_epochs_per_record=a.max_epochs_per_record)

@@ -1,7 +1,7 @@
 {
   "split": "test",
-  "n_epochs": 4760,
-  "n_subjects": 238,
+  "n_epochs": 2360,
+  "n_subjects": 236,
   "borderline_range": [
     0.35,
     0.65
@@ -9,59 +9,167 @@
   "agg_method": "mean",
   "agents": {
     "lightgbm": {
-      "seconds": 594.6,
+      "seconds": 307.5,
       "binary": {
-        "accuracy": 0.605,
-        "macro_f1": 0.6048,
-        "auc": 0.6812
+        "accuracy": 0.6102,
+        "macro_f1": 0.6088,
+        "auc": 0.6494,
+        "confusion_matrix": {
+          "tn": 79,
+          "fp": 50,
+          "fn": 42,
+          "tp": 65
+        },
+        "sensitivity": 0.6075,
+        "specificity": 0.6124,
+        "ppv": 0.5652,
+        "npv": 0.6529
       },
       "confidence_borderline": {
-        "accuracy_non_borderline": 0.0857,
-        "macro_f1_non_borderline": 0.1558,
-        "macro_f1_all": 0.1779,
-        "n_predicted_borderline": 214
+        "accuracy_non_borderline": 0.1202,
+        "macro_f1_non_borderline": 0.198,
+        "macro_f1_all": 0.2031,
+        "n_predicted_borderline": 201,
+        "confusion_matrix_3class": [
+          [
+            18,
+            109,
+            2
+          ],
+          [
+            2,
+            25,
+            1
+          ],
+          [
+            5,
+            67,
+            7
+          ]
+        ]
       }
     },
     "eegnet": {
-      "seconds": 11.8,
+      "seconds": 5.2,
       "binary": {
-        "accuracy": 0.605,
-        "macro_f1": 0.6037,
-        "auc": 0.6638
+        "accuracy": 0.6441,
+        "macro_f1": 0.639,
+        "auc": 0.6893,
+        "confusion_matrix": {
+          "tn": 90,
+          "fp": 39,
+          "fn": 45,
+          "tp": 62
+        },
+        "sensitivity": 0.5794,
+        "specificity": 0.6977,
+        "ppv": 0.6139,
+        "npv": 0.6667
       },
       "confidence_borderline": {
-        "accuracy_non_borderline": 0.1857,
-        "macro_f1_non_borderline": 0.2997,
-        "macro_f1_all": 0.2724,
-        "n_predicted_borderline": 183
+        "accuracy_non_borderline": 0.0673,
+        "macro_f1_non_borderline": 0.1388,
+        "macro_f1_all": 0.1649,
+        "n_predicted_borderline": 218,
+        "confusion_matrix_3class": [
+          [
+            4,
+            122,
+            3
+          ],
+          [
+            0,
+            27,
+            1
+          ],
+          [
+            0,
+            69,
+            10
+          ]
+        ]
       }
     },
     "tcn": {
-      "seconds": 43.0,
+      "seconds": 21.3,
       "binary": {
-        "accuracy": 0.5798,
-        "macro_f1": 0.573,
-        "auc": 0.623
+        "accuracy": 0.5847,
+        "macro_f1": 0.5845,
+        "auc": 0.6648,
+        "confusion_matrix": {
+          "tn": 72,
+          "fp": 57,
+          "fn": 41,
+          "tp": 66
+        },
+        "sensitivity": 0.6168,
+        "specificity": 0.5581,
+        "ppv": 0.5366,
+        "npv": 0.6372
       },
       "confidence_borderline": {
-        "accuracy_non_borderline": 0.0905,
-        "macro_f1_non_borderline": 0.1234,
-        "macro_f1_all": 0.1501,
-        "n_predicted_borderline": 212
+        "accuracy_non_borderline": 0.1875,
+        "macro_f1_non_borderline": 0.3034,
+        "macro_f1_all": 0.2641,
+        "n_predicted_borderline": 180,
+        "confusion_matrix_3class": [
+          [
+            24,
+            100,
+            5
+          ],
+          [
+            4,
+            21,
+            3
+          ],
+          [
+            5,
+            59,
+            15
+          ]
+        ]
       }
     },
     "transformer": {
-      "seconds": 13.2,
+      "seconds": 6.6,
       "binary": {
-        "accuracy": 0.5966,
-        "macro_f1": 0.5962,
-        "auc": 0.6409
+        "accuracy": 0.6059,
+        "macro_f1": 0.596,
+        "auc": 0.6097,
+        "confusion_matrix": {
+          "tn": 90,
+          "fp": 39,
+          "fn": 54,
+          "tp": 53
+        },
+        "sensitivity": 0.4953,
+        "specificity": 0.6977,
+        "ppv": 0.5761,
+        "npv": 0.625
       },
       "confidence_borderline": {
-        "accuracy_non_borderline": 0.0857,
-        "macro_f1_non_borderline": 0.1428,
-        "macro_f1_all": 0.1628,
-        "n_predicted_borderline": 214
+        "accuracy_non_borderline": 0.0962,
+        "macro_f1_non_borderline": 0.1455,
+        "macro_f1_all": 0.1651,
+        "n_predicted_borderline": 211,
+        "confusion_matrix_3class": [
+          [
+            18,
+            111,
+            0
+          ],
+          [
+            3,
+            25,
+            0
+          ],
+          [
+            2,
+            75,
+            2
+          ]
+        ]
       }
     }
   }

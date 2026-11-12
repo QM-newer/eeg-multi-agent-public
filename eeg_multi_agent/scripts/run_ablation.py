@@ -44,7 +44,7 @@ from config import (
 from features.fusion import FeatureFusion
 from utils.io_utils import ensure_dir, save_json
 
-FEATURE_DIR = os.path.join("E:/eeg_asd_cache", "features")
+FEATURE_DIR = os.path.join("cache", "features")  # 2026-11 起存本地（E: 盘写入不稳定）
 
 # 列块布局（与 _make_feature_agents 拼接顺序一致）
 BLOCKS = {

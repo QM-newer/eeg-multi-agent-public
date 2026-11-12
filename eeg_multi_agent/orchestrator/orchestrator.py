@@ -5,7 +5,7 @@ import os
 import numpy as np
 from config import (
     AGENT_WEIGHTS, AGENT_WEIGHTS_PATH, DISAGREEMENT_CONFIG, FUSION_PATH,
-    MODEL_PATHS, ORCHESTRATOR_CONFIG, QUALITY_CONFIG, DATA_CONFIG,
+    MODEL_PATHS, QUALITY_CONFIG, DATA_CONFIG,
 )
 from utils.signal_utils import compute_quality_report
 
@@ -22,9 +22,8 @@ from agents.validation_agents.explainability_agent import ExplainabilityAgent
 from agents.validation_agents.consistency_agent import ConsistencyAgent
 
 from orchestrator.voting import weighted_vote
-from orchestrator.disagreement import check_disagreement, second_opinion
+from orchestrator.disagreement import check_disagreement
 from orchestrator.dynamic_weight import adjust_weights_by_snr
-from orchestrator.arbitration import arbitrate
 
 
 class Orchestrator:
@@ -37,10 +36,9 @@ class Orchestrator:
     3. 特征提取（三个特征Agent）
     4. 第一轮诊断（四个诊断Agent）
     5. 加权投票
-    6. 分歧检测
-    7. 若有分歧：补充空间域特征 → 重推理 → 特征可信度裁决 → 重新投票
-    8. 一致性校验 + 可解释性分析
-    9. 返回最终诊断结果
+    6. 分歧检测（仅作诊断状态记录，不改变最终结论）
+    7. 一致性校验 + 可解释性分析
+    8. 返回最终诊断结果
     """
 
     def __init__(self, model_paths=None, device="cpu", sfreq=None,
@@ -221,29 +219,16 @@ class Orchestrator:
         # 6. 分歧检测
         has_disagreement = check_disagreement(results, self.disagreement_config)
 
-        # 7. 分歧仲裁：补空间域特征 → 重推理 → 特征可信度裁决 → 重新投票
-        arbitration = None
+        # 7. 最终权重与特征：即 SNR 动态权重与 mRMR 融合后的原始特征
         final_weights = current_weights
         used_features = all_features
-        if has_disagreement and ORCHESTRATOR_CONFIG["arbitration"]["enable"]:
-            results, arbitration = arbitrate(
-                eeg_data, results, all_features,
-                diagnosis_agents=self.diagnosis_agents,
-                weights=current_weights,
-                sfreq=self.sfreq,
-                snr_db=quality_report["snr_db"],
-                quality_level=quality_report["quality_level"],
-            )
-            final_weights = arbitration["weights"]
-            used_features = arbitration["augmented_features"]
-            vote_result = weighted_vote(results, final_weights)
 
         # 8. 一致性校验
         consistency_result = self.validation_agents["consistency"].predict(
             eeg_data, {"agent_results": results}
         )
 
-        # 9. 可解释性分析（仲裁时使用扩充特征集）
+        # 9. 可解释性分析（使用第一轮投票所用特征）
         explain_result = self.validation_agents["explainability"].predict(
             eeg_data, {
                 "agent_results": results,
@@ -260,8 +245,9 @@ class Orchestrator:
             "quality_report": quality_report,
             "weights": final_weights,
             "disagreement": has_disagreement,
-            "second_opinion_triggered": arbitration is not None,
-            "arbitration": arbitration,
+            # 保留两个键以兼容下游读取（仲裁机制已移除，恒为 False/None）
+            "second_opinion_triggered": False,
+            "arbitration": None,
             "consistency": consistency_result["extra"],
             "explanation": explain_result["extra"]["explanation"],
             "top_features": explain_result["extra"]["top_features"],

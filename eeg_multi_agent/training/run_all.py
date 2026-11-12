@@ -29,7 +29,7 @@ AGENT_ORDER = ["lightgbm", "eegnet", "tcn", "transformer"]
 
 def main(epochs=30, n_subjects=90, epochs_per_subject=5, n_select=128,
          device=None, only=None, weights_only=False, seed=None,
-         max_epochs_per_record=None):
+         max_epochs_per_record=None, n_jobs=None):
     print("=" * 60)
     print("EEG-MAS 全部诊断Agent训练")
     print("=" * 60)
@@ -45,7 +45,8 @@ def main(epochs=30, n_subjects=90, epochs_per_subject=5, n_select=128,
             acc = train_lgbm(n_subjects=n_subjects,
                              epochs_per_subject=epochs_per_subject,
                              n_select=n_select, seed=seed,
-                             max_epochs_per_record=max_epochs_per_record)
+                             max_epochs_per_record=max_epochs_per_record,
+                             n_jobs=n_jobs)
         else:
             acc = train_deep_agent(name, n_subjects=n_subjects,
                                    epochs_per_subject=epochs_per_subject,
@@ -89,8 +90,11 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--max-epochs-per-record", type=int, default=None,
                         help="每条记录最多取多少 epoch（控制内存与 CPU 训练时长）")
+    parser.add_argument("--n-jobs", type=int, default=None,
+                        help="LightGBM 特征提取并行进程数（控制内存）")
     args = parser.parse_args()
     main(epochs=args.epochs, n_subjects=args.n_subjects,
          epochs_per_subject=args.epochs_per_subject, n_select=args.n_select,
          device=args.device, only=args.only, weights_only=args.weights_only,
-         seed=args.seed, max_epochs_per_record=args.max_epochs_per_record)
+         seed=args.seed, max_epochs_per_record=args.max_epochs_per_record,
+         n_jobs=args.n_jobs)

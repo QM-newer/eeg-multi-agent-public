@@ -26,5 +26,11 @@ Thumbs.db
 eeg_multi_agent/data/exclude_records.json
 *exclude_records*
 
+# 运行日志 —— 本地留档，不入仓库（旧口径日志含本地路径）
+eeg_multi_agent/logs/
+
+# 内部规划文档 —— 仅本地
+EEG-Multi-Agent System Plan.docx
+
 # 投稿稿件与图件 —— 仅随稿提交期刊，不入仓库
 essay/

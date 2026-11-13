@@ -153,95 +153,95 @@
       ],
       "variants": {
         "stacking_full": {
-          "acc": 0.6144,
-          "macro_f1": 0.6144,
-          "auc": 0.6346,
-          "sensitivity": 0.6822,
+          "acc": 0.5975,
+          "macro_f1": 0.5974,
+          "auc": 0.6676,
+          "sensitivity": 0.6449,
           "specificity": 0.5581,
           "confusion_matrix": {
             "tn": 72,
             "fp": 57,
-            "fn": 34,
-            "tp": 73
+            "fn": 38,
+            "tp": 69
           }
         },
         "A4_no_eegnet": {
-          "acc": 0.5678,
-          "macro_f1": 0.5673,
-          "auc": 0.6029,
-          "sensitivity": 0.6636,
-          "specificity": 0.4884,
-          "confusion_matrix": {
-            "tn": 63,
-            "fp": 66,
-            "fn": 36,
-            "tp": 71
-          }
-        },
-        "A5_no_tcn": {
-          "acc": 0.6102,
-          "macro_f1": 0.6101,
-          "auc": 0.6532,
-          "sensitivity": 0.6636,
-          "specificity": 0.5659,
-          "confusion_matrix": {
-            "tn": 73,
-            "fp": 56,
-            "fn": 36,
-            "tp": 71
-          }
-        },
-        "A6_no_transformer": {
-          "acc": 0.6059,
-          "macro_f1": 0.6056,
-          "auc": 0.6181,
-          "sensitivity": 0.6355,
+          "acc": 0.589,
+          "macro_f1": 0.5881,
+          "auc": 0.6464,
+          "sensitivity": 0.5981,
           "specificity": 0.5814,
           "confusion_matrix": {
             "tn": 75,
             "fp": 54,
-            "fn": 39,
-            "tp": 68
+            "fn": 43,
+            "tp": 64
+          }
+        },
+        "A5_no_tcn": {
+          "acc": 0.6653,
+          "macro_f1": 0.6645,
+          "auc": 0.6931,
+          "sensitivity": 0.6822,
+          "specificity": 0.6512,
+          "confusion_matrix": {
+            "tn": 84,
+            "fp": 45,
+            "fn": 34,
+            "tp": 73
+          }
+        },
+        "A6_no_transformer": {
+          "acc": 0.6144,
+          "macro_f1": 0.6132,
+          "auc": 0.6637,
+          "sensitivity": 0.6168,
+          "specificity": 0.6124,
+          "confusion_matrix": {
+            "tn": 79,
+            "fp": 50,
+            "fn": 41,
+            "tp": 66
           }
         },
         "A9_soft_voting_equal": {
-          "acc": 0.6144,
-          "macro_f1": 0.6113,
-          "auc": 0.6701,
-          "sensitivity": 0.5794,
-          "specificity": 0.6434,
+          "acc": 0.6017,
+          "macro_f1": 0.5999,
+          "auc": 0.6667,
+          "sensitivity": 0.5888,
+          "specificity": 0.6124,
           "confusion_matrix": {
-            "tn": 83,
-            "fp": 46,
-            "fn": 45,
-            "tp": 62
+            "tn": 79,
+            "fp": 50,
+            "fn": 44,
+            "tp": 63
           }
         },
         "hard_voting": {
-          "acc": 0.6314,
-          "macro_f1": 0.621,
+          "acc": 0.6144,
+          "macro_f1": 0.6047,
           "auc": null,
           "note": "4 agents majority vote, tie→Normal",
-          "sensitivity": 0.514,
-          "specificity": 0.7287,
+          "sensitivity": 0.5047,
+          "specificity": 0.7054,
           "confusion_matrix": {
-            "tn": 94,
-            "fp": 35,
-            "fn": 52,
-            "tp": 55
+            "tn": 91,
+            "fp": 38,
+            "fn": 53,
+            "tp": 54
           }
         },
         "single_lightgbm_event": {
-          "acc": 0.6271,
-          "macro_f1": 0.6225,
-          "auc": 0.6615,
-          "sensitivity": 0.5701,
-          "specificity": 0.6744,
+          "acc": 0.572,
+          "macro_f1": 0.5686,
+          "auc": 0.6429,
+          "sensitivity": 0.5327,
+          "specificity": 0.6047,
           "confusion_matrix": {
-            "tn": 87,
-            "fp": 42,
-            "fn": 46,
-            "tp": 61
+            "tn": 78,
+            "fp": 51,
+            "fn": 50,
+            "tp": 57
           }
         },
         "single_eegnet": {

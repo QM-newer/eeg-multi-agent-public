@@ -18,7 +18,7 @@
         "auc": 0.6542,
         "baseline": 0.5466
       },
-      "seconds": 62.3
+      "seconds": 62.2
     },
     "no_event": {
       "n_features": 532,
@@ -37,7 +37,7 @@
         "auc": 0.6786,
         "baseline": 0.5466
       },
-      "seconds": 46.8
+      "seconds": 47.0
     },
     "A1_no_time": {
       "n_features": 386,
@@ -56,7 +56,7 @@
         "auc": 0.6628,
         "baseline": 0.5466
       },
-      "seconds": 22.4
+      "seconds": 21.6
     },
     "A2_no_freq": {
       "n_features": 462,
@@ -75,7 +75,7 @@
         "auc": 0.6243,
         "baseline": 0.5466
       },
-      "seconds": 34.4
+      "seconds": 33.7
     },
     "A3_no_timefreq": {
       "n_features": 462,
@@ -94,7 +94,7 @@
         "auc": 0.6965,
         "baseline": 0.5466
       },
-      "seconds": 34.2
+      "seconds": 34.3
     }
   }
 }

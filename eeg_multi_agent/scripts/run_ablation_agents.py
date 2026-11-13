@@ -1,8 +1,8 @@
-﻿﻿# scripts/run_ablation_agents.py
+# scripts/run_ablation_agents.py
 """
 消融实验 — Agent 侧（论文计划 5.4 A4~A6、A9）+ 硬投票基线（Baseline 2）
 
-第一步：收集各诊断 Agent 在 val/test（@20 epochs/record）上的 epoch 级概率并缓存
+第一步：收集各诊断 Agent 在 val/test（@10 epochs/record）上的 epoch 级概率并缓存
     - lightgbm / lightgbm_event: 直接用预提取特征（E:/eeg_asd_cache/features/）
       过各自融合器后 predict_proba（与 Agent 内部串行提取等价，快 ~600 倍）
     - eegnet / tcn / transformer: 原始 epoch 逐个 agent.predict（Agent 内部归一化）

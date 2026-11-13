@@ -25,3 +25,6 @@ Thumbs.db
 .DS_Store
 eeg_multi_agent/data/exclude_records.json
 *exclude_records*
+
+# 投稿稿件与图件 —— 仅随稿提交期刊，不入仓库
+essay/

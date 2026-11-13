@@ -1,4 +1,4 @@
-﻿# scripts/run_ablation_agents.py
+﻿﻿# scripts/run_ablation_agents.py
 """
 消融实验 — Agent 侧（论文计划 5.4 A4~A6、A9）+ 硬投票基线（Baseline 2）
 
@@ -232,7 +232,7 @@ def main(force=False, agg="p90"):
         bases.append(("lightgbm_event", ["lightgbm_event", "eegnet", "tcn", "transformer"]))
 
     results = {
-        "protocol": f"subject-level binary, meta=LGBM on val, agg={agg}, test@20",
+        "protocol": f"subject-level binary, meta=LGBM on val, agg={agg}, test@10",
         "n_test_subjects": int(len(test_y)),
         "baseline_majority": round(float(base_rate), 4),
         "bases": {},

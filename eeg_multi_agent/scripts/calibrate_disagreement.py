@@ -193,7 +193,7 @@ def main(from_cache=False):
             best_so_far = g["error_recall"]
 
     results = {
-        "protocol": "val@20, 3-class Orchestrator, 4 diagnosis agents, single-round voting",
+        "protocol": "val@10, 3-class Orchestrator, 4 diagnosis agents, single-round voting",
         "n_epochs": int(n), "n_subjects": int(uniq_n),
         "metric_distributions": dist,
         "current_config_firing": current_fire,

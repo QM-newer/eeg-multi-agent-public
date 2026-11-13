@@ -1,5 +1,5 @@
 {
-  "protocol": "LightGBM binary, mRMR-128, subject-level agg on test@20",
+  "protocol": "LightGBM binary, mRMR-128, subject-level agg on test@10",
   "variants": {
     "full": {
       "n_features": 614,

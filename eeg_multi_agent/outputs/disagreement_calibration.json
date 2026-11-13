@@ -1,5 +1,5 @@
 {
-  "protocol": "val@20, 3-class Orchestrator, 4 diagnosis agents, single-round voting",
+  "protocol": "val@10, 3-class Orchestrator, 4 diagnosis agents, single-round voting",
   "n_epochs": 2390,
   "n_subjects": 239,
   "metric_distributions": {

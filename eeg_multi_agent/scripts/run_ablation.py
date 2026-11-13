@@ -164,7 +164,7 @@ def main(variants=None, n_select=128):
           f"({len(set(sids_test))} 被试)")
 
     todo = variants if variants else list(VARIANTS.keys())
-    results = {"protocol": "LightGBM binary, mRMR-128, subject-level agg on test@20",
+    results = {"protocol": "LightGBM binary, mRMR-128, subject-level agg on test@10",
                "variants": {}}
     for name in todo:
         drop = VARIANTS[name]

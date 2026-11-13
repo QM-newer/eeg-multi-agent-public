@@ -1,5 +1,5 @@
 {
-  "protocol": "subject-level binary, meta=LGBM on val, agg=mean, test@20",
+  "protocol": "subject-level binary, meta=LGBM on val, agg=mean, test@10",
   "n_test_subjects": 236,
   "baseline_majority": 0.5466,
   "bases": {

@@ -22,7 +22,6 @@
       "consistency": 0.63,
       "disagreement_trigger_rate": 0.45,
       "review_flag": false,
-      "report": "demo/reports/SUBJ_0029_report.md",
       "talking_point": "正常病例：高置信判为正常、一致性良好，展示\"放心通过\"的常规初筛路径（秒级完成）。"
     },
     {
@@ -39,7 +38,6 @@
       "consistency": 0.465,
       "disagreement_trigger_rate": 0.5,
       "review_flag": true,
-      "report": "demo/reports/SUBJ_0172_report.md",
       "talking_point": "异常病例：高置信判为异常并附证据链与多 Agent 共识过程，展示\"抓到异常\"的可解释能力。"
     },
     {
@@ -56,7 +54,6 @@
       "consistency": 0.535,
       "disagreement_trigger_rate": 0.3,
       "review_flag": true,
-      "report": "demo/reports/SUBJ_1514_report.md",
       "talking_point": "可疑病例：置信差小、系统主动建议人工复核，展示临床安全设计——AI 只做初筛，拿不准就交还医生。"
     }
   ],

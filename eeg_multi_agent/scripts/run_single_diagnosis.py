@@ -53,19 +53,10 @@ def main():
           f"(SNR={qr['snr_db']:.1f}dB, 伪迹={qr['artifact_ratio']:.2%}, "
           f"等级={qr['quality_level']})")
     print(f"是否分歧:  {'是' if result['disagreement'] else '否'}")
-    print(f"二次诊断:  {'已触发' if result['second_opinion_triggered'] else '未触发'}")
-
     print("\n动态权重（SNR感知调整后）:")
     for name, w in result["weights"].items():
         print(f"  {name:15s}: {w:.4f}")
 
-    if result["arbitration"]:
-        arb = result["arbitration"]
-        print(f"\n仲裁信息: 空间域补充特征 {arb['spatial_dim']} 维 "
-              f"(扩充后总特征 {arb['augmented_dim']} 维)")
-        print("  特征可信度:")
-        for name, c in arb["credibility"].items():
-            print(f"    {name:15s}: {c:.4f}")
     print(f"一致性:    {result['consistency']['consistency_score']:.4f} "
           f"({result['consistency']['consistency_level']})")
     print(f"人工复核:  {'建议' if result['consistency']['need_human_review'] else '不需要'}")

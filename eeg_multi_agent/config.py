@@ -188,7 +188,6 @@ DISAGREEMENT_CONFIG = {
     "prob_diff_threshold": 0.30,      # 最大概率差阈值（高于则视为分歧）
     "label_majority_threshold": 0.6,  # 标签一致比例阈值（2-2/2-1-1 分裂时触发，核心规则）
     "entropy_threshold": 1.099,       # 熵值阈值（>ln3≈1.0986 不可能，仅在极端均匀时触发）
-    "arbitration": "weighted_vote",   # 仲裁方式: "weighted_vote" / "expert_fallback" / "manual_review"
 }
 
 # ============================================================
